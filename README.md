@@ -1,5 +1,5 @@
 # emb0x
-Simple web based jukebox app
+Simple web based jukebox app.
 
 Not much going on here yet, but watch this space.
 
