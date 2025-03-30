@@ -1,6 +1,0 @@
-version: "1"
-services:
-  db:
-    image: cgswong/aws:rds
-
-    

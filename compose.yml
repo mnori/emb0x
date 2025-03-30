@@ -1,0 +1,19 @@
+version: "3.8" # Use version 3.8 of the Compose file format.
+
+services:
+  db:
+    image: mysql:8.0.41
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: confidentcats4eva
+      MYSQL_DATABASE: emb0x
+      MYSQL_USER: the-caretaker
+      MYSQL_PASSWORD: confidentcats4eva
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    volumes:
+      - db_data:/var/lib/mysql  # Persist database data
+
+volumes:
+  db_data:
