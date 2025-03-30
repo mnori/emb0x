@@ -8,7 +8,7 @@ CREATE TABLE user (
     email NOT NULL VARCHAR(255) NOT NULL,
     password_hash NOT NULL VARCHAR(255) NOT NULL,
     salt NOT NULL VARCHAR(255) NOT NULL,
-    access ENUM('fan', 'contributor', 'caretaker') NOT NULL,
+    access ENUM('fan', 'stakeholder', 'caretaker') NOT NULL,
     created_on NOT NULL TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_on NULL TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     removed_on NULL TIMESTAMP DEFAULT CURRENT_TIMESTAMP
