@@ -1,7 +1,7 @@
 # emb0x
-Simple web based jukebox app. _(if i had one)_
+This is a project where the goal is to build a simple, customisable web based jukebox app.
 
-Not much going on here yet, but watch this space.
+Not much to see here yet, but watch this space.
 
 Free and open source. (MIT license)
 
