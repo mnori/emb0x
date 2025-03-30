@@ -1,6 +1,6 @@
 -- Draft DB schema for the emb0x project. 
 -- One has to get this right from the very start otherwise bad things can happen.
--- No financial data in here at least though
+-- No financial data in here at least though cos FUCK CAPITALISM
 
 CREATE TABLE user (
     id NOT NULL INT PRIMARY KEY AUTO_INCREMENT,
