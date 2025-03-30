@@ -21,7 +21,8 @@ CREATE TABLE user (
 CREATE TABLE track (
     id INT NOT NULL AUTO_INCREMENT,
     track_name VARCHAR(255) NULL,
-    artist VARCHAR(255) NULL,
+    artist_name VARCHAR(255) NULL,
+    artist_user_id INT NULL, -- FK to User table
     track_description TEXT NULL,
     genre VARCHAR(255) NULL, -- FK to Genre table
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
