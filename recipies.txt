@@ -1,0 +1,9 @@
+------------------------------------------------------------------------
+
+Trust the HTTPS development certificate and run the app
+
+dotnet dev-certs https --trust
+cd webapp
+dotnet run
+
+------------------------------------------------------------------------
