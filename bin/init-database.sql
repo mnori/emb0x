@@ -15,7 +15,8 @@ CREATE TABLE user (
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_on TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     removed_on TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    removed_reason TEXT NOT NULL,
+    PRIMARY KEY (id),
 );
 
 CREATE TABLE track (
@@ -28,6 +29,7 @@ CREATE TABLE track (
     created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_on TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     removed_on TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    removed_reason TEXT NOT NULL,
     FOREIGN KEY (artist_user_id) REFERENCES user(id),
     PRIMARY KEY (id)
 );
@@ -62,8 +64,8 @@ CREATE TABLE tracklist_track (
     FOREIGN KEY (track_id) REFERENCES track(id)
 );
 
--- Release artists are the artists that are credited on the release but not 
--- necessarily on the tracks contained within the release
+-- Tracklist (e.g. album) artists are the artists that are credited on the tracklist (e.g. album) but not 
+-- necessarily on the tracks contained within the tracklist
 CREATE TABLE tracklist_artist (
     tracklist_id INT NOT NULL,
     artist_id INT NOT NULL,
