@@ -1,6 +1,10 @@
 import os
 import subprocess
 
+# ffmpeg must be installed as a subfolder in the current directory
+ffmpeg_cmd = str("./ffmpeg/bin/ffmpeg.exe")
+
+# Path to the folder containing the audio files
 corpus_path = str("D:\Dropbox\Me\Embers Complete")
 
 def scan_folder(folder_path):
@@ -14,7 +18,7 @@ def perform_conversion(root, file):
     target_filepath = "result/"+file_without_extension+".flac"
 
     result = subprocess.run(
-        ["./ffmpeg/bin/ffmpeg.exe", "-i", file_path, target_filepath], 
+        [ffmpeg_cmd, "-i", file_path, target_filepath], 
         capture_output=True, text=True)
     print("Saved "+ +"to "+target_filepath)
 
