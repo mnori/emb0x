@@ -1,3 +1,8 @@
+- Get into an ubuntu docker container:
+	docker exec -it ubuntu_instance bash
+    
+------------------------------------------------------------------------
+
 Follow this:
 https://learn.microsoft.com/en-gb/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-9.0&WT.mc_id=dotnet-35129-website&tabs=visual-studio-code
 
@@ -13,7 +18,7 @@ dotnet run
 
 ------------------------------------------------------------------------
 
-firest0rm - commercial example
-£1 a month
+firest0rm.net - commercial example. firest0rm.io
+£1 a month - dynamic pricing
 
 Play on the left design

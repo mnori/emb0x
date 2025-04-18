@@ -8,12 +8,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: confidentcats4eva
       MYSQL_DATABASE: emb0x
-      MYSQL_USER: the-caretaker
+      MYSQL_USER: admin
       MYSQL_PASSWORD: confidentcats4eva
     ports:
       - "3306:3306"  # Expose MySQL on port 3306
     volumes:
       - db_data:/var/lib/mysql  # Persist database data
-
+  ubuntu:
+    image: ubuntu:latest  # Use the latest Ubuntu image
+    container_name: ubuntu_instance
+    command: tail -f /dev/null
+    volumes:
+      - ./ubuntu-data:/data      # Optional: Mount a local folder to the container
+      
 volumes:
   db_data:
