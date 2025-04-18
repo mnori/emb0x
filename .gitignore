@@ -1,2 +1,4 @@
 conversion/result/
 conversion/ffmpeg/
+webapp/bin/Debug/
+webapp/obj/Debug/

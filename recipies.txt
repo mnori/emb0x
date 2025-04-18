@@ -16,6 +16,8 @@ dotnet dev-certs https --trust
 cd webapp
 dotnet run
 
+Go to http://localhost:5190/
+
 ------------------------------------------------------------------------
 
 firest0rm.net - commercial example. firest0rm.io

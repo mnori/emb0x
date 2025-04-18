@@ -2,7 +2,7 @@
 
 # Variables
 CONTAINER_NAME="mysql"
-DB_USER="the-caretaker"
+DB_USER="admin"
 DB_PASSWORD="confidentcats4eva"
 DB_NAME="emb0x"
 SQL_FILE="init-database.sql"
