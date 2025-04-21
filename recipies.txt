@@ -1,3 +1,18 @@
+Next steps
+
+- Fix version mismatch in the mysql container
+    - docker-compose has one version
+    - Program.cs has another version
+- Error occurs in teh webapp
+- Might need to clear existing database with the wrong version?
+- AI got confused over it.
+
+--------------------------------------------------
+
+Clear database
+docker volume rm emb0x_db_data
+
+
 Use the following commands to apply migrations:
 docker run -it --rm \
   -v /c/Users/matth/dev/emb0x/webapp:/app \
@@ -5,6 +20,7 @@ docker run -it --rm \
   webapp:latest \
   dotnet ef database update
 
+docker-compose up
 docker-compose up --build
 
 How can I launch a dotnet web MVC server container using docker-compose?
