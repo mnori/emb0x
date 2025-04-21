@@ -1,6 +1,27 @@
+Important commands
+
+dotnet run: start the web server
+
+DB reset:
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+Go here to see it http://localhost:5190/
+
+b0nfire
+firest0rm
+
+Reset DB:
+
+
+
+------------------------------------------------------------------------
+
 - Get into an ubuntu docker container:
 	docker exec -it ubuntu_instance bash
     
+Autogen a model class.
+
 ------------------------------------------------------------------------
 
 Follow this:
