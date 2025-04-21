@@ -1,12 +1,3 @@
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.csproj.AssemblyReference.cache
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.AssemblyInfoInputs.cache
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.AssemblyInfo.cs
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.csproj.CoreCompileInputs.cache
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.RazorAssemblyInfo.cache
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.RazorAssemblyInfo.cs
-C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.sourcelink.json
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\appsettings.json
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\webapp.staticwebassets.runtime.json
@@ -74,6 +65,7 @@ C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Microsoft.VisualStudio.Web.Code
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.Common.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.Configuration.dll
@@ -84,6 +76,7 @@ C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.Packaging.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.ProjectModel.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.Protocol.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\NuGet.Versioning.dll
+C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\SQLitePCLRaw.batteries_v2.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\SQLitePCLRaw.core.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\SQLitePCLRaw.provider.e_sqlite3.dll
@@ -282,6 +275,15 @@ C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\runtimes\win-arm64\native\e_sql
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.csproj.AssemblyReference.cache
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.AssemblyInfoInputs.cache
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.AssemblyInfo.cs
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.csproj.CoreCompileInputs.cache
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.RazorAssemblyInfo.cache
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.RazorAssemblyInfo.cs
+C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.sourcelink.json
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\scopedcss\bundle\webapp.styles.css
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\scopedcss\projectbundle\webapp.bundle.scp.css

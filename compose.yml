@@ -11,19 +11,25 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - ./webapp/MvcMovie.db:/app/MvcMovie.db # Persist the SQLite database
-  # db:
-  #   image: mysql:8.0.41
-  #   container_name: mysql
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: confidentcats4eva
-  #     MYSQL_DATABASE: emb0x
-  #     MYSQL_USER: admin
-  #     MYSQL_PASSWORD: confidentcats4eva
-  #   ports:
-  #     - "3306:3306"  # Expose MySQL on port 3306
-  #   volumes:
-  #     - db_data:/var/lib/mysql  # Persist database data
+    depends_on:
+      - db # Ensure the db container starts before the webapp container
+    networks:
+      - app-network
+  db:
+    image: mysql:8.0.32 # Use an existing MySQL image
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: confidentcats4eva
+      MYSQL_DATABASE: emb0x
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: confidentcats4eva
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    volumes:
+      - db_data:/var/lib/mysql  # Persist database data
+    networks:
+      - app-network  # Is this necessary?
   # ubuntu:
   #   image: ubuntu:latest  # Use the latest Ubuntu image
   #   container_name: ubuntu_instance
@@ -31,6 +37,9 @@ services:
   #   volumes:
   #     - ./ubuntu-data:/data      # Optional: Mount a local folder to the container
   
-  
+
+networks:
+  app-network:
+
 volumes:
   db_data:
