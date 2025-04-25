@@ -1,25 +1,24 @@
-# Stage 1: Build and Migration Stage
+# Stage 1: Build application.
+#
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
+COPY . /app
+RUN dotnet restore webapp.csproj
+RUN dotnet build webapp.csproj -c Release -o /app/build
 
-# Copy the project files
-COPY *.csproj ./
-RUN dotnet restore
+FROM build AS publish
+RUN dotnet publish webapp.csproj -c Release -o /app/publish
 
-# Copy the rest of the application files
-COPY . ./
-RUN dotnet build -c Release -o /app/out
+# Stage 2: Create runtime image.
+#
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+WORKDIR /app
 
-# Stage 2: Runtime Stage
-# FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
-# WORKDIR /app
+# Pass database connection parameters as build arguments
+ARG DB_CONNECTION_STRING="Server=database;Port=3306;Database=emb0x;User=root;Password=test123;SslMode=None;allowPublicKeyRetrieval=true"
 
-# Copy the built application from the build stage
-COPY --from=build /app/out ./
+# Set the connection string as an environment variable
+ENV ConnectionStrings__MvcMovieContext=$DB_CONNECTION_STRING
 
-# Copy the entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
-# Set the entrypoint
-ENTRYPOINT ["/app/entrypoint.sh"]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "webapp.dll"]
