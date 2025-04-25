@@ -9,11 +9,13 @@ services:
       - database
     restart: always
     environment:
-      ConnectionStrings__MvcMovieContext: "Server=database,3306;Port=3306;Database=emb0x;User=root;Password=test123;allowPublicKeyRetrieval=true"
+      ConnectionStrings__MvcMovieContext: "Server=database,3306;Port=3306;database=emb0x;User=root;Password=test123;allowPublicKeyRetrieval=true"
       MYSQL_HOST: database
       MYSQL_USER: root
       MYSQL_PASSWORD: test123
       MYSQL_DATABASE: emb0x
+    ports:
+      - "5000:5000"
   
   database: 
     image: mysql

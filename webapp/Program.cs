@@ -15,8 +15,8 @@ System.Diagnostics.Debug.WriteLine($"## Current Directory: {Directory.GetCurrent
 var connectionString = builder.Configuration.GetConnectionString("MvcMovieContext") ??
                        Environment.GetEnvironmentVariable("ConnectionStrings__MvcMovieContext");
 System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
-if (builder.Environment.IsDevelopment())
-{
+// if (builder.Environment.IsDevelopment())
+// {
     System.Diagnostics.Debug.WriteLine("## DEVELOPMENT ENVIRONMENT");
     if (string.IsNullOrEmpty(connectionString))
     {
@@ -43,13 +43,13 @@ if (builder.Environment.IsDevelopment())
     // );
     // builder.Services.AddDbContext<MvcMovieContext>(options =>
     //     options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext")));
-}
-else
-{
-    System.Diagnostics.Debug.WriteLine("## NOT DEVELOPMENT ENVIRONMENT");
-    builder.Services.AddDbContext<MvcMovieContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcMovieContext")));
-}
+// }
+// else
+// {
+//     System.Diagnostics.Debug.WriteLine("## NOT DEVELOPMENT ENVIRONMENT");
+//     builder.Services.AddDbContext<MvcMovieContext>(options =>
+//         options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcMovieContext")));
+// }
 
 
 // builder.Services.AddDbContext<MvcMovieContext>(options =>
@@ -63,7 +63,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    // SeedData.Initialize(services); // disable for now
+    var context = services.GetRequiredService<MvcMovieContext>();
+    context.Database.EnsureCreated();
+    SeedData.Initialize(services);
 }
 
 // Configure the HTTP request pipeline.
@@ -81,10 +83,11 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+app.Urls.Add("http://0.0.0.0:5000");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=HomeController}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();
