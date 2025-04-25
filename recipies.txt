@@ -1,16 +1,25 @@
-Next steps
-
-- Fix version mismatch in the mysql container
-    - docker-compose has one version
-    - Program.cs has another version
-- Error occurs in teh webapp
-- Might need to clear existing database with the wrong version?
-- AI got confused over it.
-
---------------------------------------------------
-
 Clear database
 docker volume rm emb0x_db_data
+docker-compose down
+docker-compose up --build
+dotnet clean
+dotnet build
+
+How to run the migrations:
+
+docker exec -it webbapp-1 bash
+
+Problem is that it crashes due to 
+
+docker-compose run webapp dotnet ef database update
+
+
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.13
+dotnet add package Microsoft.EntityFrameworkCore.Relational --version 8.0.13
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.13
+
+
+
 
 
 Use the following commands to apply migrations:
