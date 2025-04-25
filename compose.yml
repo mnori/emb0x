@@ -1,26 +1,31 @@
 services:
-  client:
-    image: docker-mysql
-    container_name: client
+  webapp:
+    image: webapp
+    container_name: webapp
     build: 
-      context: .
+      context: webapp
       dockerfile: Dockerfile
     depends_on:
       - database
     restart: always
     environment:
-      - "Server=database;Port=3306;Database=mysql;User=root;Password=test123;"
+      ConnectionStrings__MvcMovieContext: "Server=database,3306;Port=3306;Database=emb0x;User=root;Password=test123;allowPublicKeyRetrieval=true"
+      MYSQL_HOST: database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: test123
+      MYSQL_DATABASE: emb0x
   
   database: 
     image: mysql
-    container_name: mysql
+    container_name: database
     volumes:
       - db-volume:/var/lib/mysql
     restart: always
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: test123;
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: emb0x
 
 volumes:
   db-volume:
