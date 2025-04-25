@@ -5,14 +5,15 @@ using MvcMovie.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // this is version of Pomelo.EntityFrameworkCore.MySql
-var mysqlVersion = new Version(8, 0, 32);
+var connectionString = builder.Configuration.GetConnectionString("MvcMovieContext");
+var mysqlVersion = ServerVersion.AutoDetect(connectionString);
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<MvcMovieContext>(options =>
         options.UseMySql(
-            builder.Configuration.GetConnectionString("MvcMovieContext"),
-            new MySqlServerVersion(mysqlVersion) // Specify the MySQL version
+            connectionString,
+            mysqlVersion // Specify the MySQL version
         )
     );
     // builder.Services.AddDbContext<MvcMovieContext>(options =>

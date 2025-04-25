@@ -1,4 +1,4 @@
-# Use the official .NET SDK image to build the application
+# Stage 1: Build and Migration Stage
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
@@ -8,16 +8,18 @@ RUN dotnet restore
 
 # Copy the rest of the application files
 COPY . ./
-RUN dotnet publish -c Release -o out
+RUN dotnet build -c Release -o /app/out
 
-# Use the official .NET runtime image to run the application
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
-WORKDIR /app
-COPY --from=build /app/out .
+# Stage 2: Runtime Stage
+# FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+# WORKDIR /app
 
-# Expose the port the application runs on
-EXPOSE 5000
-EXPOSE 5001
+# Copy the built application from the build stage
+COPY --from=build /app/out ./
 
-# Run the application
-ENTRYPOINT ["dotnet", "webapp.dll"]
+# Copy the entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]
