@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 namespace DockerMySQL {
     class Program {
         static void Main(string[] args) {
-            string connectionString = "server=database;user=root;password=test123;database=mysql";
+            string connectionString = "server=database;user=root;password=confidentcats4eva;database=mysql";
 
             System.Threading.Thread.Sleep(5000);
 

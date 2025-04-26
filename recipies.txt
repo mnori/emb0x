@@ -1,6 +1,7 @@
 Clear database
 docker volume rm emb0x_db_data
 docker-compose down
+
 docker-compose up --build
 dotnet clean
 dotnet build

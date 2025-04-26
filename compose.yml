@@ -10,10 +10,10 @@ services:
         condition: service_healthy
     restart: always
     environment:
-      ConnectionStrings__MvcMovieContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=test123;allowPublicKeyRetrieval=true;SslMode=None;"
+      ConnectionStrings__MvcMovieContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
       MYSQL_HOST: database
       MYSQL_USER: root
-      MYSQL_PASSWORD: test123
+      MYSQL_PASSWORD: confidentcats4eva
       MYSQL_DATABASE: emb0x
     ports:
       - "5000:5000"
@@ -27,13 +27,13 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_ROOT_PASSWORD: confidentcats4eva
       MYSQL_DATABASE: emb0x
-    healthcheck:
+    healthcheck: # this is used to check if the database is up and running
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 1s
-      timeout: 5s
-      retries: 10
+      timeout: 3s
+      retries: 20
 
 volumes:
   db-volume:
