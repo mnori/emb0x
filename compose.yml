@@ -31,8 +31,8 @@ services:
       MYSQL_DATABASE: emb0x
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 1s
+      interval: 1s
+      timeout: 5s
       retries: 10
 
 volumes:
