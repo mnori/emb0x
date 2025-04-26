@@ -6,11 +6,11 @@ namespace SharedLibrary.Models;
 
 public class BackgroundTask
 {
-    public string Id { get; set; } // UUID - matches the upload filename on the disk
-    public string Type { get; set; } // e.g. IMPORT
+    public int Id { get; set; } // UUID - matches the upload filename on the disk
+    public string? Type { get; set; } // e.g. IMPORT
     
     public DateTime Created { get; set; }
-    public DateTime? Started { get; set; }
-    public DateTime? Completed { get; set; }
+    public DateTime Started { get; set; }
+    public DateTime Completed { get; set; }
     
 }

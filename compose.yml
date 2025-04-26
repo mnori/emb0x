@@ -10,7 +10,7 @@ services:
         condition: service_healthy
     restart: always
     environment:
-      ConnectionStrings__MvcMovieContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+      ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
       MYSQL_HOST: database
       MYSQL_USER: root
       MYSQL_PASSWORD: confidentcats4eva
@@ -62,7 +62,7 @@ volumes:
 #       - "5190:8080"
 #     environment:
 #       - ASPNETCORE_ENVIRONMENT=Development
-#       - ConnectionStrings__MvcMovieContext=Server=db;Database=emb0x;User=admin;Password=confidentcats4eva;SslMode=None;
+#       - ConnectionStrings__Emb0xDatabaseContext=Server=db;Database=emb0x;User=admin;Password=confidentcats4eva;SslMode=None;
 #     volumes:
 #       - ./webapp/MvcMovie.db:/app/MvcMovie.db # Persist the SQLite database
 #     depends_on:

@@ -10,9 +10,9 @@ public static class SeedData
 {
     public static void Initialize(IServiceProvider serviceProvider)
     {
-        using (var context = new MvcMovieContext(
+        using (var context = new Emb0xDatabaseContext(
             serviceProvider.GetRequiredService<
-                DbContextOptions<MvcMovieContext>>()))
+                DbContextOptions<Emb0xDatabaseContext>>()))
         {
             // Look for any movies.
             if (context.Movie.Any())

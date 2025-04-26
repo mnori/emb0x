@@ -18,7 +18,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app/webapp
 
 # Set the connection string as an environment variable
-ENV ConnectionStrings__MvcMovieContext=$DB_CONNECTION_STRING
+ENV ConnectionStrings__Emb0xDatabaseContext=$DB_CONNECTION_STRING
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "webapp.dll"]

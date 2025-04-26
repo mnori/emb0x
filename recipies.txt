@@ -1,6 +1,6 @@
 dotnet aspnet-codegenerator controller -name TaskController -m Task -dc SharedLibrary.Data.MvcTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
-dotnet aspnet-codegenerator controller -name BackgroundTaskController -m BackgroundTask -dc SharedLibrary.Data.MvcBackgroundTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
+dotnet aspnet-codegenerator controller -name BackgroundTaskController -m BackgroundTask -dc MvcBackgroundTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
 
 
 Next steps:
