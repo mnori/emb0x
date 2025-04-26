@@ -6,7 +6,8 @@ services:
       context: webapp
       dockerfile: Dockerfile
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     restart: always
     environment:
       ConnectionStrings__MvcMovieContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=test123;allowPublicKeyRetrieval=true;SslMode=None;"
@@ -28,6 +29,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: test123
       MYSQL_DATABASE: emb0x
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 1s
+      retries: 10
 
 volumes:
   db-volume:
