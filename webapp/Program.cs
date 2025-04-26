@@ -82,13 +82,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 
 app.Urls.Add("http://0.0.0.0:5000");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=HomeController}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=HomeController}/{action=Index}/{id?}");
 
 app.Run();
