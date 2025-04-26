@@ -1,8 +1,14 @@
+dotnet aspnet-codegenerator controller -name TaskController -m Task -dc SharedLibrary.Data.MvcTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+dotnet aspnet-codegenerator controller -name BackgroundTaskController -m BackgroundTask -dc SharedLibrary.Data.MvcBackgroundTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
+
+
 Next steps:
 
 - Creating and managing tasks.
 - Tasks table
 - c# Daemon - Tasks container.
+- Web server uploads onto a special volume - imports
 
 
 dotnet add "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj" package Microsoft.EntityFrameworkCore

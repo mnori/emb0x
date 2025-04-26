@@ -1,6 +1,6 @@
 # Stage 1: Build application.
 #
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 COPY SharedLibrary ./SharedLibrary
@@ -14,7 +14,7 @@ RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish
 
 # Stage 2: Create runtime image.
 #
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app/webapp
 
 # Set the connection string as an environment variable
