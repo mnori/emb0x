@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SharedLibrary.Data;
 using SharedLibrary.Models;
+using SharedLibrary.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +10,10 @@ Directory.SetCurrentDirectory(projectRoot);
 System.Diagnostics.Debug.WriteLine($"## Current Directory: {Directory.GetCurrentDirectory()}");
 
 // this is version of Pomelo.EntityFrameworkCore.MySql
-// var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__MvcMovieContext");
+// var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__Emb0xDatabaseContext");
 
-var connectionString = builder.Configuration.GetConnectionString("MvcMovieContext") ??
-                       Environment.GetEnvironmentVariable("ConnectionStrings__MvcMovieContext");
+var connectionString = builder.Configuration.GetConnectionString("Emb0xDatabaseContext") ??
+                       Environment.GetEnvironmentVariable("ConnectionStrings__Emb0xDatabaseContext");
 
 System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
 // if (builder.Environment.IsDevelopment())
@@ -24,11 +24,11 @@ System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
         throw new InvalidOperationException("The connection string 'MvcMovieContext' is not configured.");
     }
 
-    builder.Services.AddDbContext<MvcMovieContext>(options =>
-    options.UseMySql(
-        connectionString,
-        new MySqlServerVersion(new Version(8, 0, 32))
-    ));
+    var mysqlVersion = new MySqlServerVersion(new Version(8, 0, 32));
+
+    builder.Services.AddDbContext<Emb0xDatabaseContext>(options =>
+        options.UseMySql(connectionString, mysqlVersion));
+
 
     // builder.Services.AddDbContext<MvcMovieContext>(options =>
     // options.UseMySql(
@@ -64,7 +64,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<MvcMovieContext>();
+    var context = services.GetRequiredService<Emb0xDatabaseContext>();
     context.Database.EnsureCreated();
     SeedData.Initialize(services);
 }

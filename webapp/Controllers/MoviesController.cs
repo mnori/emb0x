@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SharedLibrary.Models;
 using MvcMovie.Models;
+using SharedLibrary.Models;
 using SharedLibrary.Data;
 
 namespace webapp.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly MvcMovieContext _context;
+        private readonly Emb0xDatabaseContext _context;
 
-        public MoviesController(MvcMovieContext context)
+        public MoviesController(Emb0xDatabaseContext context)
         {
             _context = context;
         }
@@ -32,7 +32,7 @@ namespace webapp.Controllers
         {
             if (_context.Movie == null)
             {
-                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+                return Problem("Entity set 'Emb0xCEmb0xDatabaseContext.Movie' is null.");
             }
 
             // Use LINQ to get list of genres.

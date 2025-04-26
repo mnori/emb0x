@@ -7,13 +7,14 @@ using SharedLibrary.Models;
 
 namespace SharedLibrary.Data
 {
-    public class MvcMovieContext : DbContext
+    public class Emb0xDatabaseContext : DbContext
     {
-        public MvcMovieContext (DbContextOptions<MvcMovieContext> options)
+        public Emb0xDatabaseContext (DbContextOptions<Emb0xDatabaseContext> options)
             : base(options)
         {
         }
 
         public DbSet<Movie> Movie { get; set; } = default!;
+        public DbSet<BackgroundTask> BackgroundTask { get; set; } = default!;
     }
 }
