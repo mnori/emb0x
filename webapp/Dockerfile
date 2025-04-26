@@ -14,9 +14,6 @@ RUN dotnet publish webapp.csproj -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app/webapp
 
-# Pass database connection parameters as build arguments
-ARG DB_CONNECTION_STRING="Server=database;Port=3306;Database=emb0x;User=root;Password=test123;SslMode=None;allowPublicKeyRetrieval=true"
-
 # Set the connection string as an environment variable
 ENV ConnectionStrings__MvcMovieContext=$DB_CONNECTION_STRING
 
