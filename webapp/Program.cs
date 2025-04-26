@@ -1,8 +1,7 @@
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MvcMovie.Data;
-using MvcMovie.Models;
+using SharedLibrary.Data;
+using SharedLibrary.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var projectRoot = Path.GetFullPath(AppContext.BaseDirectory);
@@ -12,8 +11,10 @@ System.Diagnostics.Debug.WriteLine($"## Current Directory: {Directory.GetCurrent
 
 // this is version of Pomelo.EntityFrameworkCore.MySql
 // var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__MvcMovieContext");
+
 var connectionString = builder.Configuration.GetConnectionString("MvcMovieContext") ??
                        Environment.GetEnvironmentVariable("ConnectionStrings__MvcMovieContext");
+
 System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
 // if (builder.Environment.IsDevelopment())
 // {
@@ -24,10 +25,10 @@ System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
     }
 
     builder.Services.AddDbContext<MvcMovieContext>(options =>
-        options.UseMySql(
-            connectionString,
-            new MySqlServerVersion(new Version(8, 0, 32)) // Adjust MySQL version as needed
-        ));
+    options.UseMySql(
+        connectionString,
+        new MySqlServerVersion(new Version(8, 0, 32))
+    ));
 
     // builder.Services.AddDbContext<MvcMovieContext>(options =>
     // options.UseMySql(
