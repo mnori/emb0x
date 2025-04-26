@@ -2956,6 +2956,20 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "SharedLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.13",
+          "Pomelo.EntityFrameworkCore.MySql": "8.0.3"
+        },
+        "compile": {
+          "bin/placeholder/SharedLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SharedLibrary.dll": {}
+        }
       }
     }
   },
@@ -7909,6 +7923,11 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "SharedLibrary/1.0.0": {
+      "type": "project",
+      "path": "../SharedLibrary/SharedLibrary.csproj",
+      "msbuildProject": "../SharedLibrary/SharedLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7920,7 +7939,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.13",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.13",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 9.0.0",
-      "Pomelo.EntityFrameworkCore.MySql >= 8.0.3"
+      "Pomelo.EntityFrameworkCore.MySql >= 8.0.3",
+      "SharedLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -7947,7 +7967,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\matth\\dev\\emb0x\\SharedLibrary\\SharedLibrary.csproj": {
+              "projectPath": "C:\\Users\\matth\\dev\\emb0x\\SharedLibrary\\SharedLibrary.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

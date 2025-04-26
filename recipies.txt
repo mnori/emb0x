@@ -1,3 +1,15 @@
+Next steps:
+
+- Creating and managing tasks.
+- Tasks table
+- c# Daemon - Tasks container.
+
+
+dotnet add "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj" package Microsoft.EntityFrameworkCore
+dotnet add "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj" package Pomelo.EntityFrameworkCore.MySql
+dotnet build "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj"
+---------------------------------------------------------------------
+
 Clear database
 docker volume rm emb0x_db_data
 docker-compose down

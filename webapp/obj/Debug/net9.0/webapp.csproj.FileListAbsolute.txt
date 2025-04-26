@@ -338,3 +338,5 @@ C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\refint\webapp.dll
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.pdb
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\webapp.genruntimeconfig.cache
 C:\Users\matth\dev\emb0x\webapp\obj\Debug\net9.0\ref\webapp.dll
+C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\SharedLibrary.dll
+C:\Users\matth\dev\emb0x\webapp\bin\Debug\net9.0\SharedLibrary.pdb

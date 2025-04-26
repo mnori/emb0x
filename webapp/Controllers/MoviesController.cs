@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcMovie.Data;
+using SharedLibrary.Models;
 using MvcMovie.Models;
+using SharedLibrary.Data;
 
 namespace webapp.Controllers
 {

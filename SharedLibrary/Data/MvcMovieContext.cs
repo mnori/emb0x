@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MvcMovie.Models;
+using SharedLibrary.Models;
 
-namespace MvcMovie.Data
+namespace SharedLibrary.Data
 {
     public class MvcMovieContext : DbContext
     {
@@ -14,6 +14,6 @@ namespace MvcMovie.Data
         {
         }
 
-        public DbSet<MvcMovie.Models.Movie> Movie { get; set; } = default!;
+        public DbSet<Movie> Movie { get; set; } = default!;
     }
 }

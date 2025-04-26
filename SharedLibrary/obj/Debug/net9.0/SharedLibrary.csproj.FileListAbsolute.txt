@@ -1,0 +1,6 @@
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.csproj.AssemblyReference.cache
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.AssemblyInfoInputs.cache
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.AssemblyInfo.cs
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.csproj.CoreCompileInputs.cache
+c:\Users\matth\dev\emb0x\SharedLibrary\obj\Debug\net9.0\SharedLibrary.sourcelink.json

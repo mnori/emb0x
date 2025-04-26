@@ -2,12 +2,15 @@
 #
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
-COPY . /app
-RUN dotnet restore webapp.csproj
-RUN dotnet build webapp.csproj -c Release -o /app/build
+
+COPY SharedLibrary ./SharedLibrary
+
+COPY webapp /app/webapp
+RUN dotnet restore webapp/webapp.csproj
+RUN dotnet build webapp/webapp.csproj -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish webapp.csproj -c Release -o /app/publish
+RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish
 
 # Stage 2: Create runtime image.
 #
