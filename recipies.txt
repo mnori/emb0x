@@ -1,3 +1,10 @@
+Next step:
+
+- Establish import-manager Docker container. 
+- Just a box with a command line. 
+- Running a daemon process - ask the AI for another example
+
+
 The solution is to use Localhost:
 
 ConnectionStrings__Emb0xDatabaseContext="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;" \
