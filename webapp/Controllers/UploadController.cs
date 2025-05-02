@@ -23,7 +23,8 @@ public class UploadController : Controller
         try
         {
             // Generate a unique file name to avoid conflicts
-            var fileName = Path.GetRandomFileName();
+            var id = Guid.NewGuid().ToString();
+            var fileName = id + ".upload";
             var filePath = Path.Combine(Settings.UploadPath, fileName);
 
             // Save the file to the shared volume under its random name
