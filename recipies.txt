@@ -1,3 +1,30 @@
+The solution is to use Localhost:
+
+ConnectionStrings__Emb0xDatabaseContext="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;" \
+dotnet ef database update -p SharedLibrary -s webapp
+
+
+dotnet ef database update -p SharedLibrary -s webapp -- --connection-string="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+
+
+
+To run migration:
+
+ConnectionStrings__Emb0xDatabaseContext="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;" \
+dotnet ef database update -p SharedLibrary -s webapp
+
+Emb0xDatabaseContext="Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+
+Then
+
+dotnet ef migrations add AddImportTask -p SharedLibrary -s webapp
+
+Then
+
+dotnet ef database update -p SharedLibrary -s webapp
+
+
+
 "I had forgotten that you are only a common boy. How should you understand reasons of the State? You must learn, child, that what would be wrong for you or for any of the common people is not wrong in a great Queen such as I. The weight of the world is on our shoulders. We must be freed from all rules. Ours is a high and lonely destiny." - Jadis
 
 
