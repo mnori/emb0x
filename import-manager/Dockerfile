@@ -4,24 +4,25 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 COPY SharedLibrary ./SharedLibrary
+COPY import-manager ./import-manager
 
-COPY import-manager /app/import-manager
-RUN dotnet restore import-manager/ImportManager.csproj
-RUN dotnet build import-manager/ImportManager.csproj -c Release -o /app/build
+# Restore dependencies
+WORKDIR /app/import-manager
+RUN dotnet restore ImportManager.csproj
+
+# Build and publish the application
+RUN dotnet publish ImportManager.csproj -c Release -o /app/publish
 
 FROM build AS publish
 RUN dotnet publish import-manager/ImportManager.csproj -c Release -o /app/publish
 
-# Stage 2: Create runtime image.
-#
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
-WORKDIR /app/webapp
+# Stage 2: Create runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
 
-# Set the connection string as an environment variable
-ENV ConnectionStrings__Emb0xDatabaseContext=$DB_CONNECTION_STRING
-
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "import-manager.dll"]
+# Set the entry point for the container
+ENTRYPOINT ["dotnet", "ImportManager.dll"]
 
 
 # # Stage 1: Build the application
