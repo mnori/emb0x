@@ -37,20 +37,20 @@ services:
       timeout: 3s
       retries: 20
 
-  # import-manager:
-  #   build:
-  #     context: .
-  #     dockerfile: import-manager/Dockerfile
-  #   container_name: import-manager
-  #   depends_on:
-  #     database:
-  #       condition: service_healthy
-  #   restart: always
-  #   environment:
-  #     ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
-  #   volumes: # where will the actual daemon code go?
-  #     - ./import-manager:/app/import-manager # Mount the actual bit where the daemon code is
-  #     - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
+  import-manager:
+    build:
+      context: .
+      dockerfile: import-manager/Dockerfile
+    container_name: import-manager
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: always
+    environment:
+      ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+    volumes: # where will the actual daemon code go?
+      - ./import-manager:/app/import-manager # Mount the actual bit where the daemon code is
+      - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
 
   # task-manager:
   #   build:
