@@ -17,6 +17,8 @@ services:
       MYSQL_DATABASE: emb0x
     ports:
       - "5000:5000"
+    volumes:
+      - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
   
   database: 
     image: mysql
@@ -35,11 +37,26 @@ services:
       timeout: 3s
       retries: 20
 
-  # taskrunner-daemon:
+  # import-manager:
   #   build:
   #     context: .
-  #     dockerfile: taskrunner-daemon/Dockerfile
-  #   container_name: taskrunner-daemon
+  #     dockerfile: import-manager/Dockerfile
+  #   container_name: import-manager
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   restart: always
+  #   environment:
+  #     ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+  #   volumes: # where will the actual daemon code go?
+  #     - ./import-manager:/app/import-manager # Mount the actual bit where the daemon code is
+  #     - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
+
+  # task-manager:
+  #   build:
+  #     context: .
+  #     dockerfile: task-manager/Dockerfile
+  #   container_name: task-manager
   #   depends_on:
   #     database:
   #       condition: service_healthy
@@ -49,6 +66,7 @@ services:
 
 volumes:
   db-volume:
+  shared-upload-data: # Define the shared volume
 
 
 # version: '3.8'

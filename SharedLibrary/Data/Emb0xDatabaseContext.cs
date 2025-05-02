@@ -15,6 +15,6 @@ namespace SharedLibrary.Data
         }
 
         public DbSet<Movie> Movie { get; set; } = default!;
-        public DbSet<BackgroundTask> BackgroundTask { get; set; } = default!;
+        public DbSet<ImportTask> ImportTask { get; set; } = default!;
     }
 }

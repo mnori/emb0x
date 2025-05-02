@@ -1,3 +1,21 @@
+"I had forgotten that you are only a common boy. How should you understand reasons of the State? You must learn, child, that what would be wrong for you or for any of the common people is not wrong in a great Queen such as I. The weight of the world is on our shoulders. We must be freed from all rules. Ours is a high and lonely destiny." - Jadis
+
+
+
+Import Engine
+- Need a new volume that can be shared between the webapp and the import-manager.
+- Need an interface that allows a file (any type) to be uploaded and then placed into the shared volume. Direct upload to the volume.
+
+
+
+Get the daemon container running.
+
+Each task in the database table produces a 5 second delay response in the task-manager
+
+import-manager
+ImportManager.csproj
+
+
 dotnet aspnet-codegenerator controller -name TaskController -m Task -dc SharedLibrary.Data.MvcTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
 
 dotnet aspnet-codegenerator controller -name BackgroundTaskController -m BackgroundTask -dc MvcBackgroundTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
