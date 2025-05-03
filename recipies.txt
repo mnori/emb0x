@@ -1,8 +1,17 @@
+Completing the upload process
+x- conversion to flac using ffmpeg
+x- upload to s3 with UUID filename
+- store the UUID in the Track table as the ID
+
+
+
 let's have a minio dockerfile
 
 Starting from the quay.io/minio/minio base image
 
 mc anonymous set public local/audio-files
+
+
 
 
 import-manager  | info: ImportManager.ImportTaskDaemon[0]
