@@ -21,6 +21,8 @@ namespace ImportManager
                             new MySqlServerVersion(new Version(8, 0, 32)) // Replace with your MySQL version
                         ));
 
+                    services.AddScoped<ImportTaskService>();
+
                     // Add your background service or other dependencies here
                     services.AddHostedService<ImportTaskDaemon>();
                 });
