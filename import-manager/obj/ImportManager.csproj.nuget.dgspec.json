@@ -86,6 +86,10 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "SharpCompress": {
+              "target": "Package",
+              "version": "[0.39.0, )"
             }
           },
           "imports": [

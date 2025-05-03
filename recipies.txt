@@ -1,8 +1,13 @@
 Completing the upload process
 x- conversion to flac using ffmpeg
 x- upload to s3 with UUID filename
-- store the UUID in the Track table as the ID
+x- store the UUID in the Track table as the ID
+x- artist name and track title
 
+- Unzip engine
+
+
+1GB upload limit. Any more, you need to use FTP
 
 
 let's have a minio dockerfile

@@ -10,7 +10,7 @@ namespace SharedLibrary.Models {
     {
         public string Id { get; set; } // UUID. Points to a place on S3 or similar
         public string ArtistName { get; set; }
-        public string TrackName { get; set; }
+        public string TrackTitle { get; set; }
         public DateTime CreatedOn { get; set; }
     }
 }
