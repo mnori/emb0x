@@ -13,6 +13,6 @@ you probably need to run dotnet migrations when it's the first time, see the bin
 
 0r just give me the author (@mnori) a shout, if you have any queries
 
-visit http://localhost:5000/Upload
+visit http://localhost:5000/Upload when the docker containers look happy
 
 have fun!
