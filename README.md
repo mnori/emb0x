@@ -1,5 +1,5 @@
 # this is emb0x
-emb0x is me trying to make a free open source Soundcloud alternative. just getting started right now.
+emb0x is a project that aims to produce a good quality free open source Soundcloud alternative. just getting started right now.
 
 # architecture
 
