@@ -1,8 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Models;
 using SharedLibrary.Data;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Kestrel to allow larger request body sizes
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 1073741824; // 1GB in bytes
+});
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 1073741824; // 1GB
+    // options.MultipartBodyTemporaryFileDirectory = "/tmp";
+});
 
 var projectRoot = Path.GetFullPath(AppContext.BaseDirectory);
 Directory.SetCurrentDirectory(projectRoot);
