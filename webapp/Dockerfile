@@ -1,5 +1,4 @@
 # Stage 1: Build application.
-#
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
@@ -13,7 +12,6 @@ FROM build AS publish
 RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish
 
 # Stage 2: Create runtime image.
-#
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app/webapp
 

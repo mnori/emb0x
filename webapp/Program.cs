@@ -9,52 +9,20 @@ Directory.SetCurrentDirectory(projectRoot);
 
 System.Diagnostics.Debug.WriteLine($"## Current Directory: {Directory.GetCurrentDirectory()}");
 
-// this is version of Pomelo.EntityFrameworkCore.MySql
-// var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings__Emb0xDatabaseContext");
-
 var connectionString = builder.Configuration.GetConnectionString("Emb0xDatabaseContext") ??
                        Environment.GetEnvironmentVariable("ConnectionStrings__Emb0xDatabaseContext");
 
 System.Diagnostics.Debug.WriteLine($"## ConnectionString {connectionString}");
-// if (builder.Environment.IsDevelopment())
-// {
-    System.Diagnostics.Debug.WriteLine("## DEVELOPMENT ENVIRONMENT");
-    if (string.IsNullOrEmpty(connectionString))
-    {
-        throw new InvalidOperationException("The connection string 'MvcMovieContext' is not configured.");
-    }
+System.Diagnostics.Debug.WriteLine("## DEVELOPMENT ENVIRONMENT");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("The connection string 'MvcMovieContext' is not configured.");
+}
 
-    var mysqlVersion = new MySqlServerVersion(new Version(8, 0, 32));
+var mysqlVersion = new MySqlServerVersion(new Version(8, 0, 32));
 
-    builder.Services.AddDbContext<Emb0xDatabaseContext>(options =>
-        options.UseMySql(connectionString, mysqlVersion));
-
-
-    // builder.Services.AddDbContext<MvcMovieContext>(options =>
-    // options.UseMySql(
-    //     connectionString,
-    //     new MySqlServerVersion(new Version(8, 0, 32)) // Adjust MySQL version as needed
-    // ));
-    
-    // builder.Services.AddDbContext<MvcMovieContext>(options =>
-    //     options.UseMySql(
-    //         connectionString,
-    //         mysqlVersion // Specify the MySQL version
-    //     )
-    // );
-    // builder.Services.AddDbContext<MvcMovieContext>(options =>
-    //     options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext")));
-// }
-// else
-// {
-//     System.Diagnostics.Debug.WriteLine("## NOT DEVELOPMENT ENVIRONMENT");
-//     builder.Services.AddDbContext<MvcMovieContext>(options =>
-//         options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcMovieContext")));
-// }
-
-
-// builder.Services.AddDbContext<MvcMovieContext>(options =>
-//     options.UseSqlite(builder.Configuration.GetConnectionString("MvcMovieContext") ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
+builder.Services.AddDbContext<Emb0xDatabaseContext>(options =>
+    options.UseMySql(connectionString, mysqlVersion));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
