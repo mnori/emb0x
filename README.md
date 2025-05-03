@@ -24,7 +24,7 @@ docker-compose up --build
 
 i run my commands on windows with git bash
 
-you probably need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder
+you need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder
 
 # useful addresses
 - visit http://localhost:5000/Upload when the docker containers look happy to try uploading stuff
