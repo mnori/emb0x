@@ -5,7 +5,7 @@ emb0x is me trying to make a free open source Soundcloud alternative. just getti
 
 what follows is a description of the Docker containers I've put together so far.
 - `webapp`
-  - this holds the web server, that uses a .net c# based backend. webapp communicates with the `database`.
+  - this holds the web server, that uses a .net c# based backend. `webapp` communicates with the `database`.
 - `database`
   - holds the `database` engine which at the moment will always be mysql
 - `import-manager`
