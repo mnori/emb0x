@@ -22,6 +22,8 @@ cd emb0x
 docker-compose up --build
 ```
 
+i run my commands on windows with git bash
+
 you probably need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder
 
 # useful addresses
