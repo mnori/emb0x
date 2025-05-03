@@ -10,6 +10,7 @@ what follows is a description of the Docker containers I've put together so far.
   - holds the `database` engine which at the moment will always be mysql
 - `import-manager`
   - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It receives tasks from the `database` that are placed there by `webapp`. like `webapp`, the `import-manager` is written in c#.
+- `minio` drop in replacement for AWS S3, for local testing
 
 # run it on your own b0x
 this requires docker to be installed first
