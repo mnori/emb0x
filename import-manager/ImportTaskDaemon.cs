@@ -38,6 +38,7 @@ namespace ImportManager
                         // Retrieve the most recent ImportTask row
                         var importTask = await dbContext.ImportTask
                             .OrderByDescending(t => t.Created)
+                            .Where(t => t.Completed == null && t.Failed == null)
                             .FirstOrDefaultAsync(stoppingToken);
 
                         if (importTask != null)
