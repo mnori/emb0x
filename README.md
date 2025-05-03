@@ -1,11 +1,14 @@
-# emb0x
-This is a project where the goal is to build a simple, customisable web based jukebox app. I want something that can be run on a very cheap Amazon set up, with the freedom to run your own independent server running the software. Additionally it ought to be easy for someone to get their own node working without needing to know much about the tech details, i.e. I'd like something with an automated deployment process.
+# welcome to emb0x
+emb0x is me trying to make a free open source Soundcloud alternative. Just getting started right now.
 
-Why? Well I guess I'm a bit tired of Soundcloud's limits on how much content I can host on there, without paying its overpriced fee. Additionally Soundcloud can't be customised to change its appearance etc. vs running something on your own server where you're able to change it into whatever you want.
+# run it on your own b0x
+this requires docker to be installed first
+```
+git clone https://github.com/mnori/emb0x.git
+cd emb0x
+docker-compose up --build
+```
 
-Not much to see here yet, but watch this space, I am sinking hours into this thing most weekends.
+visit http://localhost:5000/Upload
 
-Free and open source. (MIT license)
-
-![image](https://github.com/user-attachments/assets/440c1d04-55b1-4b37-b0e7-902147e269bc)
-
+have fun!
