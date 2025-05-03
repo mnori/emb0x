@@ -1,4 +1,4 @@
-#welcome to embox
+# welcome to embox
 emb0x is me trying to make a free open source Soundcloud alternative
 
 # Getting up and started
