@@ -71,15 +71,21 @@ namespace ImportManager
             Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
 
             var filePath = Path.Combine(Settings.UploadPath, importTask.Id + ".upload");
-            ProcessFile(filePath);
+            ProcessFile(filePath, importTask.Id);
         }
 
-        private void ProcessFile(string filePath)
+        private void ProcessFile(string filePath, string id)
         {
             if (IsAudioFile(filePath)) {
                 Console.WriteLine($"-- File {filePath} is an audio file --");
-                // convert the file to flac.
-                // upload to s3.
+
+                // Convert the file to FLAC (if needed) and upload to MinIO (same shit as S3 but local)
+                string bucketName = "audio-files";
+                string objectName = id+".audio";
+
+                var minioService = new MinioService();
+                minioService.UploadFileAsync(bucketName, objectName, filePath).Wait();
+
             } else {
                 Console.WriteLine($"-- File {filePath} is NOT an audio file --");
                 // unzip the file to a temp directory.
