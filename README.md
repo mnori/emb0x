@@ -1,7 +1,7 @@
 # welcome to emb0x
 emb0x is me trying to make a free open source Soundcloud alternative. Just getting started right now.
 
-# run it on your own box
+# run it on your own b0x
 ```
 git clone https://github.com/mnori/emb0x.git
 cd emb0x
