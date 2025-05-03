@@ -5,9 +5,9 @@ emb0x is a project that aims to produce a good quality free and open source Soun
 
 what follows is a description of the Docker containers I've put together so far.
 - `webapp`
-  - this holds the web server, that uses a .net c# based backend. when files are uploaded, `webapp` inserts into the `database` and places the uploaded file in a shared volume. The web server is also responsible for allowing the uploaded track to be browsed and played.
+  - this holds the web server, that uses a .net c# based backend. when files are uploaded, `webapp` inserts into the `database` and places the uploaded file in a shared volume. the web server is also responsible for allowing the uploaded track to be browsed and played.
 - `database`
-  - holds the `database` engine which at the moment will always be mysql. future versions might support something scalable like cockroachdb instead of mysql if you want. it seems pretty easy to swap the database engine when you use the .net framework. i wasted 6 years of my life on java/spring/hibernate. fuck everything about hibernate trust me
+  - holds the `database` engine which at the moment will always be mysql. future versions might support something scalable like cockroachdb instead of mysql if you want. but i doubt you'd ever really need it unless you're taylor swift telling people about your music site after performing on tv. i used to work for a company where we had to deal with big spikes of traffic from the tv. that's the situation where you scale. it seems pretty easy to swap the database engine when you use the .net framework anyway. i wasted 6 years of my life on java/spring/hibernate which is absolute shite in comparison. fuck everything about hibernate trust me
 - `import-manager`
   - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It receives tasks from the `database` that are placed there by `webapp`. like `webapp`, the `import-manager` is written in c#. compressed files are unpacked and the tracks within are processed and individually added. each track gets a row in the database and gets turned into a .flac file. the .flac then gets placed in dedicated storage. some code such as the DB stuff is shared between `webapp` and `import-manager`
 - `minio`
@@ -29,6 +29,10 @@ i run my commands on windows with git bash
 
 if you use mac or linux, i am sure you can get it all working on that as well if you are dull enough to have managed to read this far
 
+# AWS deployment (production)
+
+yet to be implemented but expect to reach this side of the project soon and have the first prototype published online in a few week's time. i am thinking about reading up on kubernates and finally dipping my toes in that thing cos i still haven't touched it yet despite working in tech for ages.
+
 # useful addresses
 - visit http://localhost:5000/Upload when the docker containers look happy to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive file type or audio format should be supported.
 - the database container listens on localhost:3306. username "admin" and password "confidentcats4eva". you can use whatever you want for your mysql database client, my favourite one is DBeaver, which works great just has a silly name
@@ -36,7 +40,7 @@ if you use mac or linux, i am sure you can get it all working on that as well if
 
 # closing remarks
 
-give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are mad or brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit. i really do welcome other people's contributions in all seriousness.
+give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are mad or brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit. i really do welcome other people's contributions though in all seriousness. who knows, if this thing ever gets big, and you've made a stamp on it, it could help you get a nice job or summat.
 
 have fun!
 
