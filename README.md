@@ -11,7 +11,7 @@ what follows is a description of the Docker containers I've put together so far.
 - `import-manager`
   - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It receives tasks from the `database` that are placed there by `webapp`. like `webapp`, the `import-manager` is written in c#. compressed files are unpacked and the tracks within are processed and individually added. each track gets a row in the database and gets turned into a .flac file. the .flac then gets placed in dedicated storage. some code such as the DB stuff is shared between `webapp` and `import-manager`
 - `minio`
-  - this container holds a drop in replacement for AWS S3, so you can work locally without paying that wanker bezos anything until you are ready to push your stuff into production. this is the final resting place for processed tracks, ready to be played inside the browser. when you deploy on aws for real, you'll use aws's s3 instead, of course. cos bezos always gets his pound of flesh in the end
+  - this container holds a drop in replacement for AWS S3, so you can work locally without paying that wanker bezos anything until you are ready to push your stuff into production. this is the final resting place for processed tracks, ready to be played inside the browser. when you deploy on aws for real, you'll use aws's s3 instead, of course. cos bezos always gets his pound of flesh in the end. massive respect to Luigi my favourite Nintendo character btw for no particular reason.
 
 # run it on your own b0x
 this requires docker to be installed first. get Docker Desktop imo. don't waste your life scratching your head over too much docker on the command line when you can live the dream getting where you need to go using the juicy docker ui that makes it effortless to get a nice nosy at the file structure and logs etc.
@@ -23,7 +23,7 @@ cd emb0x
 docker-compose up --build
 ```
 
-you need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder
+you need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder, in order to create the tables
 
 i run my commands on windows with git bash
 
@@ -33,14 +33,14 @@ if you use mac or linux, i am sure you can get it all working on that as well if
 
 yet to be implemented but expect to reach this side of the project soon and have the first prototype published online in a few week's time. i am thinking about reading up on kubernates and finally dipping my toes in that thing cos i still haven't touched it yet despite working in tech for ages.
 
-# useful addresses
-- visit http://localhost:5000/Upload when the docker containers look happy to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive file type or audio format should be supported.
+# useful addresses to test the thing out with
+- visit http://localhost:5000/Upload when the docker containers have all started to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive file type or audio format should be supported.
 - the database container listens on localhost:3306. username "admin" and password "confidentcats4eva". you can use whatever you want for your mysql database client, my favourite one is DBeaver, which works great just has a silly name
 - the minio module (analogous to S3 but without needing AWS) and the processed .flac audio files within can be accessed with this kind of URL: http://localhost:9000/audio-files/a20e3351-b67c-40d7-b49a-a6d0523cf18c.audio - replace the UUID of the filename with the one you get presented with after uploading a file.
 
 # closing remarks
 
-give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are mad or brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit. i really do welcome other people's contributions though in all seriousness. who knows, if this thing ever gets big, and you've made a stamp on it, it could help you get a nice job or summat.
+give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are mad or brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit. i really do welcome other people's contributions though in all seriousness. who knows, if this thing ever gets big, and you've made a stamp on it, it could help you find a nice gig etc
 
 have fun!
 
