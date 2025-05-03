@@ -13,7 +13,7 @@ what follows is a description of the Docker containers I've put together so far.
 - `minio` is a drop in replacement for AWS S3, for local testing. after tracks have been processed, they are stored here. when you deploy on aws for real, you'll use aws's s3 instead.
 
 # run it on your own b0x
-this requires docker to be installed first. get Docker Desktop imo. don't waste your life scratching your head over too much docker on the command line when you can use that juicy ui and quickly have a nice nosy at the file structure and logs etc with the docker UI.
+this requires docker to be installed first. get Docker Desktop imo. don't waste your life scratching your head over too much docker on the command line when you can use that juicy ui and quickly have a nice nosy at the file structure and logs etc.
 
 in a folder you've chosen to put emb0x:
 ```
