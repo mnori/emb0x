@@ -1,3 +1,15 @@
+let's have a minio dockerfile
+
+Starting from the quay.io/minio/minio base image
+
+mc anonymous set public local/audio-files
+
+
+import-manager  | info: ImportManager.ImportTaskDaemon[0]
+
+
+Accessing an "s3" file
+
 Next step:
 
 - Establish import-manager Docker container. 
