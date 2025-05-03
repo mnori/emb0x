@@ -280,3 +280,9 @@ C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\refint\ImportManager.dl
 C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.pdb
 C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.genruntimeconfig.cache
 C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ref\ImportManager.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\CommunityToolkit.HighPerformance.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\Minio.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\System.IO.Hashing.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\System.Reactive.dll
+C:\Users\matth\dev\emb0x\import-manager\bin\Debug\net8.0\ZstdSharp.dll

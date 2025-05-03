@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ImportManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efd02d01db3422fa3b6b2d5c1a194aff44c04638")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1ce6d44341dce30b1760e23cf2bec389cb30816")]
 [assembly: System.Reflection.AssemblyProductAttribute("ImportManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ImportManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

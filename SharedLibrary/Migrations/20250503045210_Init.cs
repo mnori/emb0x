@@ -67,7 +67,7 @@ namespace SharedLibrary.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ArtistName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TrackName = table.Column<string>(type: "longtext", nullable: false)
+                    TrackTitle = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
