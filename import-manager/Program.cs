@@ -14,8 +14,12 @@ namespace ImportManager
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    // Add DbContext
-                    services.AddDbContext<Emb0xDatabaseContext>();
+                    // Add DbContext with MySQL configuration
+                    services.AddDbContext<Emb0xDatabaseContext>(options =>
+                        options.UseMySql(
+                            hostContext.Configuration.GetConnectionString("Emb0xDatabaseContext"),
+                            new MySqlServerVersion(new Version(8, 0, 32)) // Replace with your MySQL version
+                        ));
 
                     // Add your background service or other dependencies here
                     services.AddHostedService<ImportTaskDaemon>();
