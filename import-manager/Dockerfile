@@ -19,6 +19,11 @@ RUN dotnet publish import-manager/ImportManager.csproj -c Release -o /app/publis
 # Stage 2: Create runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+
+# Install ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+
+# Copy the published application from the build stage
 COPY --from=build /app/publish .
 
 # Set the entry point for the container
