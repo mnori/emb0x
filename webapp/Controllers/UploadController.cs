@@ -43,23 +43,14 @@ public class UploadController : Controller
                 await file.CopyToAsync(stream);
             }
 
+            // Add the ImportTask to the database
             var importTask = new ImportTask
             {
-                Id = "123", // Use the original file name as the task name
-                Type = "IMPORT", // e.g. IMPORT
-                Description = file.FileName, // e.g. the original filename
+                Id = id,
+                Type = "IMPORT",
+                Description = file.FileName,
                 Created = DateTime.UtcNow
             };
-            // Create a new ImportTask entity
-            // var importTask = new ImportTask
-            // {
-            //     TaskName = file.FileName, // Use the original file name as the task name
-            //     Data = filePath,         // Store the file path in the Data field
-            //     IsProcessed = false,     // Mark the task as not processed
-            //     CreatedAt = DateTime.UtcNow
-            // };
-
-            // Add the ImportTask to the database
             _context.ImportTask.Add(importTask);
             await _context.SaveChangesAsync();
 
