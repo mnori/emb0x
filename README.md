@@ -9,8 +9,8 @@ what follows is a description of the Docker containers I've put together so far.
 - `database`
   - holds the `database` engine which at the moment will always be mysql. future versions might support something scalable like cockroachdb instead of mysql if you want. it seems pretty easy to swap the database engine when you use the .net framework.
 - `import-manager`
-  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It receives tasks from the `database` that are placed there by `webapp`. like `webapp`, the `import-manager` is written in c#. some code such as the DB stuff is shared between `webapp` and `import-manager`
-- `minio` is a drop in replacement for AWS S3, for local testing. after tracks have been processed, they are stored here, in flac format, ready to be played inside the browser. when you deploy on aws for real, you'll use aws's s3 instead.
+  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It receives tasks from the `database` that are placed there by `webapp`. like `webapp`, the `import-manager` is written in c#. compressed files are unpacked and the tracks within are processed and individually added. each track gets a row in the database and gets turned into a .flac file. the .flac then gets updated to dedicated storage. some code such as the DB stuff is shared between `webapp` and `import-manager`
+- `minio` is a drop in replacement for AWS S3, for local testing. this is the final resting place for processed tracks, ready to be played inside the browser. when you deploy on aws for real, you'll use aws's s3 instead.
 
 # run it on your own b0x
 this requires docker to be installed first. get Docker Desktop imo. don't waste your life scratching your head over too much docker on the command line when you can use that juicy ui and quickly have a nice nosy at the file structure and logs etc.
