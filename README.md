@@ -11,6 +11,8 @@ docker-compose up --build
 
 you probably need to run dotnet migrations when it's the first time, see the bin folder for hints
 
+0r just give me the author (@mnori) a shout, if you have any queries
+
 visit http://localhost:5000/Upload
 
 have fun!
