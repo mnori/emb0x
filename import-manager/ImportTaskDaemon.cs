@@ -14,11 +14,16 @@ namespace ImportManager
     {
         private readonly ILogger<ImportTaskDaemon> _logger;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ImportTaskService _importTaskService;
 
-        public ImportTaskDaemon(ILogger<ImportTaskDaemon> logger, IServiceProvider serviceProvider)
+        public ImportTaskDaemon(
+            ILogger<ImportTaskDaemon> logger, 
+            IServiceProvider serviceProvider,
+            ImportTaskService importTaskService)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+            _importTaskService = importTaskService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,48 +34,7 @@ namespace ImportManager
             {
                 _logger.LogInformation("Polling for tasks at: {time}", DateTimeOffset.Now);
 
-                try
-                {
-                    using (var scope = _serviceProvider.CreateScope())
-                    {
-                        var dbContext = scope.ServiceProvider.GetRequiredService<Emb0xDatabaseContext>();
-
-                        // Retrieve the most recent ImportTask row
-                        var importTask = await dbContext.ImportTask
-                            .OrderByDescending(t => t.Created)
-                            .Where(t => t.Completed == null && t.Failed == null)
-                            .FirstOrDefaultAsync(stoppingToken);
-
-                        if (importTask != null)
-                        {
-                            _logger.LogInformation("Processing ImportTask: {Id}, Description: {Description}", importTask.Id, importTask.Description);
-
-                            // Perform actions based on the ImportTask row
-                            // Example: Mark the task as started
-                            importTask.Started = DateTime.UtcNow;
-                            dbContext.ImportTask.Update(importTask);
-                            await dbContext.SaveChangesAsync(stoppingToken);
-
-                            // Simulate processing
-                            await Task.Delay(2000, stoppingToken);
-
-                            // Mark the task as completed
-                            importTask.Completed = DateTime.UtcNow;
-                            dbContext.ImportTask.Update(importTask);
-                            await dbContext.SaveChangesAsync(stoppingToken);
-
-                            _logger.LogInformation("Completed ImportTask: {Id}", importTask.Id);
-                        }
-                        else
-                        {
-                            _logger.LogInformation("No tasks found.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "An error occurred while processing tasks.");
-                }
+                _importTaskService.ProcessImportTask(_serviceProvider, _logger, stoppingToken);
 
                 // Wait before polling again
                 await Task.Delay(5000, stoppingToken);
