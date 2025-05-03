@@ -81,16 +81,16 @@ namespace ImportManager
 
                 // Convert the file to FLAC (if needed) and upload to MinIO (same shit as S3 but local)
                 string bucketName = "audio-files";
-                string objectName = id+".audio";
+                string keyName = id+".audio";
 
+                // surely this should be autowired or whatever the c# equivalent is
                 var minioService = new MinioService();
-                minioService.UploadFileAsync(bucketName, objectName, filePath).Wait();
+                minioService.UploadFileAsync(bucketName, keyName, filePath).Wait();
 
             } else {
                 Console.WriteLine($"-- File {filePath} is NOT an audio file --");
-                // unzip the file to a temp directory.
-                // convert the audio files within to flac. By using ffmpeg for each one.
                 // Is it an archive? If so, unzip it to a temp directory.
+                // convert the audio files within to flac. By using ffmpeg for each one.                
                 // Then recursively process each file in the temp directory with the ProcessFile method.
             }
         }
