@@ -3,7 +3,8 @@ emb0x is me trying to make a free open source Soundcloud alternative. Just getti
 
 # run it on your own b0x
 this requires docker to be installed first
-in a folder you've chosen to put embox:
+
+in a folder you've chosen to put emb0x:
 ```
 git clone https://github.com/mnori/emb0x.git
 cd emb0x
