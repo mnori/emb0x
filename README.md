@@ -3,12 +3,12 @@ emb0x is me trying to make a free open source Soundcloud alternative. just getti
 
 # architecture
 
-- webapp
-  - this holds the web server, that uses a .net c# based backend
-- database
-  - holds the database engine which at the moment will always be mysql
-- import-manager
-  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from the web server. like the web server, the import-manager is written in c#
+- `webapp`
+  - this holds the web server, that uses a .net c# based backend. webapp communicates with the `database`.
+- `database`
+  - holds the `database` engine which at the moment will always be mysql
+- `import-manager`
+  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from `webapp`. It interacts with the `database`. like `webapp`, the `import-manager` is written in c#.
 
 # run it on your own b0x
 this requires docker to be installed first
