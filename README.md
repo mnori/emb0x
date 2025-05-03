@@ -32,7 +32,7 @@ if you use mac or linux, i am sure you can get it all working on that as well if
 # useful addresses
 - visit http://localhost:5000/Upload when the docker containers look happy to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive format and any audio format that is regularly used too.
 - the database container listens on localhost:3306. username "admin" and password "confidentcats4eva". you can use whatever you want for your mysql database client, my favourite one is DBeaver, which works great just has a silly name
-- the minio module (analogous to S3 but without needing AWS) can be accessed with this kind of URL: http://localhost:9000/audio-files/a20e3351-b67c-40d7-b49a-a6d0523cf18c.audio - replace the UUID of the filename with the one you get presented with after uploading a file.
+- the minio module (analogous to S3 but without needing AWS) and the processed .flac audio files within can be accessed with this kind of URL: http://localhost:9000/audio-files/a20e3351-b67c-40d7-b49a-a6d0523cf18c.audio - replace the UUID of the filename with the one you get presented with after uploading a file.
 
 # closing remarks
 
