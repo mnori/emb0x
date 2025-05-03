@@ -9,6 +9,8 @@ cd emb0x
 docker-compose up --build
 ```
 
+you probably need to run dotnet migrations when it's the first time, see the bin folder for hints
+
 visit http://localhost:5000/Upload
 
 have fun!
