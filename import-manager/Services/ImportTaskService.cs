@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using SharedLibrary.Data;
 using SharedLibrary.Models;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,6 +43,7 @@ namespace ImportManager
 
                             // Simulate processing
                             await Task.Delay(2000, stoppingToken);
+                            ProcessUpload(importTask);
 
                             // Mark the task as completed
                             importTask.Completed = DateTime.UtcNow;
@@ -60,6 +63,59 @@ namespace ImportManager
                     logger.LogError(ex, "An error occurred while processing tasks.");
                 }
 
+        }
+
+        public void ProcessUpload(ImportTask importTask) {
+            // Process the upload here
+            // This is just a placeholder implementation
+            Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
+
+            var filePath = Path.Combine(Settings.UploadPath, importTask.Id + ".upload");
+            if (IsAudioFile(filePath)) {
+                Console.WriteLine($"-- File {filePath} is an audio file --");
+            } else {
+                Console.WriteLine($"-- File {filePath} is NOT an audio file --");
+            }
+        }
+
+        public static bool IsAudioFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"File not found: {filePath}");
+            }
+
+            try
+            {
+                // Prepare the ffprobe process
+                var process = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "ffprobe", // Ensure ffprobe is in the PATH or provide the full path
+                        Arguments = $"-v error -show_entries stream=codec_type -of csv=p=0 \"{filePath}\"",
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    }
+                };
+
+                // Start the process
+                process.Start();
+
+                // Read the output
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                // Check if the output contains "audio"
+                return output.Contains("audio");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while checking the file: {ex.Message}");
+                return false;
+            }
         }
 
     }
