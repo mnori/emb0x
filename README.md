@@ -22,7 +22,7 @@ cd emb0x
 docker-compose up --build
 ```
 
-you probably need to run dotnet migrations when it's the first time, see the bin folder for hints (run `./migrate.sh` in there)
+you probably need to run dotnet migrations when it's the first time - `./migrate.sh` in the `bin/` folder
 
 # useful addresses
 - visit http://localhost:5000/Upload when the docker containers look happy to try uploading stuff
