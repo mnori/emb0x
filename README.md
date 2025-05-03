@@ -33,8 +33,6 @@ you probably need to run dotnet migrations when it's the first time - `./migrate
 
 give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even
 
-if you're employed by soundcloud reading this, we wish you good fortune in the wars to come. and now it begins.
-
 further up and further in.
 
 have fun!
