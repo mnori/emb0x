@@ -1,5 +1,5 @@
 # welcome to emb0x
-emb0x is me trying to make a free open source Soundcloud alternative. Just getting started right now.
+emb0x is me trying to make a free open source Soundcloud alternative. just getting started right now.
 
 # run it on your own b0x
 this requires docker to be installed first
