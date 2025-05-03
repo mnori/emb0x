@@ -5,7 +5,7 @@ emb0x is a project that aims to produce a good quality free and open source Soun
 
 what follows is a description of the Docker containers I've put together so far.
 - `webapp`
-  - this holds the web server, that uses a .net c# based backend. when files are uploaded, `webapp` inserts into the `database` and places the uploaded file in a shared volume. the web server is also responsible for allowing the uploaded track to be browsed and played.
+  - this holds the web server, that uses a .net c# based backend. when files are uploaded, `webapp` inserts into the `database` and places the uploaded file in a shared volume. the web server is also responsible for allowing the uploaded track to be browsed and played after it has been through the `import-manager`
 - `database`
   - holds the `database` engine which at the moment will always be mysql. future versions might support something scalable like cockroachdb instead of mysql if you want. but i doubt you'd ever really need it unless you're taylor swift telling people about your music site after performing on tv. i used to work for a company where we had to deal with big spikes of traffic from the tv. that's the situation where you scale. it seems pretty easy to swap the database engine when you use the .net framework anyway. i wasted 6 years of my life on java/spring/hibernate which is absolute shite in comparison. fuck everything about hibernate trust me
 - `import-manager`
