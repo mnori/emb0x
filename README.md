@@ -24,9 +24,14 @@ docker-compose up --build
 
 you probably need to run dotnet migrations when it's the first time, see the bin folder for hints (run `./migrate.sh` in there)
 
-or just give me the author (@mnori) a shout, if you have any queries
+# useful addresses
+visit http://localhost:5000/Upload when the docker containers look happy to try uploading stuff
+the database container listens on localhost:3306. username "admin" and password "confidentcats4eva"
+the minio module (basically same as S3) can be accessed with this kind of URL: http://localhost:9000/audio-files/a20e3351-b67c-40d7-b49a-a6d0523cf18c.upload - replace the UUID of the filename with the one you get presented with after uploading a file.
 
-visit http://localhost:5000/Upload when the docker containers look happy
+# closing remarks
+
+give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even
 
 have fun!
 
