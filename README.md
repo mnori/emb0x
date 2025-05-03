@@ -29,6 +29,10 @@ i run my commands on windows with git bash
 
 if you use mac or linux, i am sure you can get it all working on that as well if you are dull enough to have managed to read this far
 
+# AWS deployment (production)
+
+yet to be implemented but expect to reach this side of the project soon and have the first prototype published online in a few week's time
+
 # useful addresses
 - visit http://localhost:5000/Upload when the docker containers look happy to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive file type or audio format should be supported.
 - the database container listens on localhost:3306. username "admin" and password "confidentcats4eva". you can use whatever you want for your mysql database client, my favourite one is DBeaver, which works great just has a silly name
