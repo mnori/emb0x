@@ -1,10 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
+using SharedLibrary.Data;
+using SharedLibrary.Models;
 using System.Text.Encodings.Web;
 
-namespace MvcMovie.Controllers;
+namespace webapp.Controllers;
 
 public class UploadController : Controller
 {
+
+    private readonly Emb0xDatabaseContext _context;
+
+    public UploadController(Emb0xDatabaseContext context)
+    {
+        _context = context;
+    }
+
     [HttpGet]
     public IActionResult Index()
     {
@@ -32,6 +42,26 @@ public class UploadController : Controller
             {
                 await file.CopyToAsync(stream);
             }
+
+            var importTask = new ImportTask
+            {
+                Id = "123", // Use the original file name as the task name
+                Type = "IMPORT", // e.g. IMPORT
+                Description = file.FileName, // e.g. the original filename
+                Created = DateTime.UtcNow
+            };
+            // Create a new ImportTask entity
+            // var importTask = new ImportTask
+            // {
+            //     TaskName = file.FileName, // Use the original file name as the task name
+            //     Data = filePath,         // Store the file path in the Data field
+            //     IsProcessed = false,     // Mark the task as not processed
+            //     CreatedAt = DateTime.UtcNow
+            // };
+
+            // Add the ImportTask to the database
+            _context.ImportTask.Add(importTask);
+            await _context.SaveChangesAsync();
 
             return Ok(new { FileName = fileName, FilePath = filePath });
         }
