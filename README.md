@@ -35,8 +35,8 @@ you need to run dotnet migrations when it's the first time - `./migrate.sh` in t
 
 give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit
 
-further up and further in
-
 have fun!
+
+further up and further in
 
 *confidentcats4eva*
