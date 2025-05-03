@@ -13,8 +13,10 @@ namespace SharedLibrary.Data
             : base(options)
         {
         }
-
-        public DbSet<Movie> Movie { get; set; } = default!;
+        
         public DbSet<ImportTask> ImportTask { get; set; } = default!; 
+        public DbSet<Track> Track { get; set; } = default!;
+        public DbSet<Movie> Movie { get; set; } = default!;
     }
+    
 }

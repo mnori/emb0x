@@ -71,10 +71,21 @@ namespace ImportManager
             Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
 
             var filePath = Path.Combine(Settings.UploadPath, importTask.Id + ".upload");
+            ProcessFile(filePath);
+        }
+
+        private void ProcessFile(string filePath)
+        {
             if (IsAudioFile(filePath)) {
                 Console.WriteLine($"-- File {filePath} is an audio file --");
+                // convert the file to flac.
+                // upload to s3.
             } else {
                 Console.WriteLine($"-- File {filePath} is NOT an audio file --");
+                // unzip the file to a temp directory.
+                // convert the audio files within to flac. By using ffmpeg for each one.
+                // Is it an archive? If so, unzip it to a temp directory.
+                // Then recursively process each file in the temp directory with the ProcessFile method.
             }
         }
 

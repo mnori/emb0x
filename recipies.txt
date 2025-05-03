@@ -24,7 +24,8 @@ Emb0xDatabaseContext="Server=database;Database=emb0x;Port=3306;User=root;Passwor
 
 Then
 
-dotnet ef migrations add AddImportTask -p SharedLibrary -s webapp
+dotnet ef migrations add Track -p SharedLibrary -s webapp
+dotnet ef migrations add ImportTask -p SharedLibrary -s webapp
 
 Then
 

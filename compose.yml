@@ -18,7 +18,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
+      - shared-upload-data:/app/shared-upload-data
   
   database: 
     image: mysql
@@ -31,7 +31,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: confidentcats4eva
       MYSQL_DATABASE: emb0x
-    healthcheck: # this is used to check if the database is up and running
+    healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 1s
       timeout: 3s
@@ -48,11 +48,28 @@ services:
     restart: always
     environment:
       ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
-    volumes: # where will the actual daemon code go?
-      - ./import-manager:/app/import-manager # Mount the actual bit where the daemon code is
-      - shared-upload-data:/app/shared-upload-data # Shared volume for uploads
+    volumes:
+      - ./import-manager:/app/import-manager
+      - shared-upload-data:/app/shared-upload-data
+
+  # this is a drop in replacement for S3. 
+  # Means you can test S3 stuff locally without touching AWS and paying Bezos cos he's a cunt.
+  # Why even bother building a rocket that can't reach orbit innit
+  minio: 
+    image: quay.io/minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
 
 volumes:
   db-volume:
-  shared-upload-data: # Define the shared volume
+  shared-upload-data:
+  minio-data:
 
