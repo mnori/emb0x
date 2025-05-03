@@ -1,4 +1,4 @@
-# welcome to emb0x
+# this isemb0x
 emb0x is me trying to make a free open source Soundcloud alternative. just getting started right now.
 
 # architecture
