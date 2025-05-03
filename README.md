@@ -8,7 +8,7 @@ emb0x is me trying to make a free open source Soundcloud alternative. just getti
 - database
   - holds the database engine which at the moment will always be mysql
 - import-manager
-  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from the web server
+  - here there is a daemon that handles imported files such as .zip or individual tracks that are uploaded from the web server. like the web server, the software is written in c#
 
 # run it on your own b0x
 this requires docker to be installed first
