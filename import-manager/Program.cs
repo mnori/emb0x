@@ -12,6 +12,12 @@ namespace ImportManager
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                    logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning); // Suppress SQL logs
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     // Add DbContext with MySQL configuration
@@ -19,7 +25,8 @@ namespace ImportManager
                         options.UseMySql(
                             hostContext.Configuration.GetConnectionString("Emb0xDatabaseContext"),
                             new MySqlServerVersion(new Version(8, 0, 32)) // Replace with your MySQL version
-                        ));
+                        )
+                        .LogTo(Console.WriteLine, LogLevel.None)); // Disable SQL logging
 
                     services.AddScoped<ImportTaskService>();
 
