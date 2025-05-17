@@ -17,14 +17,12 @@ namespace ImportManager
 {
     public class ImportTaskService {
 
+        private readonly HashSet<string> _processedChecksums = new HashSet<string>();
+
         public async void ProcessImportTask(
             IServiceProvider serviceProvider, 
             ILogger<ImportTaskDaemon> logger, 
             CancellationToken stoppingToken) {
-
-            // Process the import task here
-            // This is just a placeholder implementation
-            Console.WriteLine($"Processing import task");
 
             try
                 {
@@ -40,7 +38,7 @@ namespace ImportManager
 
                         if (importTask != null)
                         {
-                            logger.LogInformation("Processing ImportTask: {Id}, Description: {Description}", importTask.Id, importTask.Description);
+                            // logger.LogInformation("Processing ImportTask: {Id}, Description: {Description}", importTask.Id, importTask.Description);
 
                             // Perform actions based on the ImportTask row
                             // Example: Mark the task as started
@@ -57,17 +55,17 @@ namespace ImportManager
                             dbContext.ImportTask.Update(importTask);
                             await dbContext.SaveChangesAsync(stoppingToken);
 
-                            logger.LogInformation("Completed ImportTask: {Id}", importTask.Id);
+                            // logger.LogInformation("Completed ImportTask: {Id}", importTask.Id);
                         }
                         else
                         {
-                            logger.LogInformation("No tasks found.");
+                            // logger.LogInformation("No tasks found.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while processing tasks.");
+                    // logger.LogError(ex, "An error occurred while processing tasks.");
                 }
 
         }
@@ -75,48 +73,158 @@ namespace ImportManager
         public void ProcessUpload(ImportTask importTask, Emb0xDatabaseContext dbContext) {
             // Process the upload here
             // This is just a placeholder implementation
-            Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
+            // Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
 
             var filePath = Path.Combine(Settings.UploadPath, importTask.Id + ".upload");
-            ProcessFile(filePath, importTask.Id, dbContext);
+            ProcessFile(filePath, dbContext);
         }
 
-        private void ProcessFile(string originalFilepath, string id, Emb0xDatabaseContext dbContext)
+        private void ProcessFile(string originalFilepath, Emb0xDatabaseContext dbContext)
         {
+
+            // Calculate the checksum of the file
+            string checksum = CalculateChecksum(originalFilepath);
+
+            // Check if the file has already been processed
+            if (_processedChecksums.Contains(checksum))
+            {
+                Console.WriteLine($"-- Skipping duplicate file: {originalFilepath} (Checksum: {checksum}) --");
+                return;
+            }
+
+            _processedChecksums.Add(checksum);
+
+            Console.WriteLine($"-- Processing file {originalFilepath} --");
+
+
             // Check if the file is an audio file using ffprobe
             // If it is, convert it to FLAC using ffmpeg and upload to MinIO (or S3)
             // If it is not, check if it is an archive. If so, unzip it to a temp directory.
             // Convert the audio files within to flac. By using ffmpeg for each one.
             // Then recursively process each file in the temp directory with the ProcessFile method.
 
-            Console.WriteLine($"-- Processing file {originalFilepath} --");
+            // Console.WriteLine($"-- Processing file {originalFilepath} --");
+
+            // Generate a new unique ID for the file.
+            var id = Guid.NewGuid().ToString();
 
             // Check if the file is an audio file
             if (IsAudioFile(originalFilepath)) {
+                Console.WriteLine($"-- File {originalFilepath} is an audio file --");
                 ProcessAudioFile(originalFilepath, id, dbContext);
 
             } else {
-                var wasCompressedFile = UnpackCompressedFile(originalFilepath, ".");
-                if (!wasCompressedFile) {
-                    Console.WriteLine($"-- File {originalFilepath} is NOT a compressed file --");
-                    // This outcome should be logged in the database as a failure
-                } else {
-                    // log it as successfully unpacked
-                    Console.WriteLine($"-- File {originalFilepath} was successfully unpacked --");
+                Console.WriteLine($"-- File {originalFilepath} isn't audio --");
+                string tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+                // Console.WriteLine($"-- Creating temporary directory: {tempDirectory} --");
+
+                Directory.CreateDirectory(tempDirectory);
+
+                try
+                {
+                    bool wasCompressedFile = UnpackCompressedFile(originalFilepath, tempDirectory);
+                    if (wasCompressedFile)
+                    {
+                        // Console.WriteLine($"-- File {originalFilepath} was successfully unpacked --");
+
+                        foreach (var file in Directory.GetFiles(tempDirectory, "*", SearchOption.AllDirectories))
+                        {
+                            Console.WriteLine($"-- Processing extracted file: {file} --");
+                            ProcessFile(file, dbContext); // Recursively process extracted files
+                        }
+                    }
+                    else
+                    {
+                        // Console.WriteLine($"-- File {originalFilepath} is NOT a compressed file --");
+                    }
+                }
+                finally
+                {
+                    Directory.Delete(tempDirectory, true); // Clean up temporary directory
+                }
+            }
+        }
+
+        private string CalculateChecksum(string filePath)
+        {
+            using (var stream = File.OpenRead(filePath))
+            {
+                using (var sha256 = System.Security.Cryptography.SHA256.Create())
+                {
+                    byte[] hash = sha256.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        
+        public bool UnpackCompressedFile(string filePath, string outputDirectory)
+        {
+
+            Console.WriteLine($"-- UnpackCompressedFile() invoked for {filePath} {outputDirectory} --");
+
+            // Check if the file exists
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"File not found: {filePath}");
+            }
+
+            // Ensure the output directory exists
+            Directory.CreateDirectory(outputDirectory);
+
+            try
+            {
+                // Read the first few bytes of the file to determine its type
+                byte[] fileHeader = new byte[4];
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    fileStream.Read(fileHeader, 0, fileHeader.Length);
                 }
 
-                // Is it a zip?
-                // If so, unzip it to a temp directory
-
-                Console.WriteLine($"-- File {originalFilepath} is NOT an audio file --");
-                // Is it an archive? If so, unzip it to a temp directory.
-                // convert the audio files within to flac. By using ffmpeg for each one.                
-                // Then recursively process each file in the temp directory with the ProcessFile method.
+                // Check the file header (magic numbers)
+                if (IsZipFile(fileHeader))
+                {
+                    // Console.WriteLine($"-- Detected .zip file: {filePath}. Extracting... --");
+                    ZipFile.ExtractToDirectory(filePath, outputDirectory);
+                    return true;
+                }
+                else if (IsTarFile(fileHeader) || IsGzipFile(fileHeader) || Is7zFile(fileHeader) || IsRarFile(fileHeader))
+                {
+                    // Console.WriteLine($"-- Detected compressed file: {filePath}. Extracting... --");
+                    using (var archive = ArchiveFactory.Open(filePath))
+                    {
+                        foreach (var entry in archive.Entries)
+                        {
+                            if (!entry.IsDirectory)
+                            {
+                                // Console.WriteLine($"-- Extracting: {entry.Key} --");
+                                entry.WriteToDirectory(outputDirectory, new ExtractionOptions
+                                {
+                                    ExtractFullPath = true,
+                                    Overwrite = true
+                                });
+                            }
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    // Console.WriteLine($"-- File {filePath} is not a supported compressed format. Skipping... --");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Console.WriteLine($"An error occurred while unpacking the file: {ex.Message}");
+                return false;
             }
         }
 
         private void ProcessAudioFile(string originalFilepath, string id, Emb0xDatabaseContext dbContext) {
-            Console.WriteLine($"-- File {originalFilepath} is an audio file --");
+            // Console.WriteLine($"-- File {originalFilepath} is an audio file --");
 
             // Convert the file to FLAC (if needed) and upload to MinIO (same shit as S3 but local)
             string bucketName = "audio-files";
@@ -124,6 +232,9 @@ namespace ImportManager
 
             var flacFilepath = originalFilepath+".flac";
             ConvertToFlac(originalFilepath, flacFilepath);
+
+            string checksum = CalculateChecksum(flacFilepath);
+            
 
             // Get metadata from the FLAC file
             var (artistName, trackTitle) = GetMetadataFromFlac(flacFilepath);
@@ -136,6 +247,7 @@ namespace ImportManager
             var newTrack = new Track
             {
                 Id = id, // Generate a unique ID
+                Checksum = checksum
                 ArtistName = artistName, 
                 TrackTitle = trackTitle, // todo: rename TrackName=>TrackTitle in the Track object
                 CreatedOn = DateTime.UtcNow
@@ -144,7 +256,7 @@ namespace ImportManager
             dbContext.Track.Add(newTrack); // Add the new track to the DbContext
             dbContext.SaveChanges(); // Save changes to the database
 
-            Console.WriteLine($"-- New track saved to database with ID: {newTrack.Id} --");
+            // Console.WriteLine($"-- New track saved to database with ID: {newTrack.Id} --");
 
             // surely this should be autowired or whatever the c# equivalent is
             var minioService = new MinioService();
@@ -186,7 +298,7 @@ namespace ImportManager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while checking the file: {ex.Message}");
+                // Console.WriteLine($"An error occurred while checking the file: {ex.Message}");
                 return false;
             }
         }
@@ -288,63 +400,34 @@ namespace ImportManager
             }
         }
 
-        
-
-        // Returns true if the file is a compressed file, false otherwise
-        public bool UnpackCompressedFile(string filePath, string outputDirectory)
+        private bool IsZipFile(byte[] fileHeader)
         {
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException($"File not found: {filePath}");
-            }
+            // ZIP files start with 0x50 0x4B 0x03 0x04
+            return fileHeader[0] == 0x50 && fileHeader[1] == 0x4B && fileHeader[2] == 0x03 && fileHeader[3] == 0x04;
+        }
 
-            // Ensure the output directory exists
-            Directory.CreateDirectory(outputDirectory);
+        private bool IsTarFile(byte[] fileHeader)
+        {
+            // TAR files don't have a fixed magic number, but SharpCompress can handle them
+            return false; // Let SharpCompress handle TAR detection
+        }
 
-            try
-            {
-                string extension = Path.GetExtension(filePath).ToLowerInvariant();
+        private bool IsGzipFile(byte[] fileHeader)
+        {
+            // GZIP files start with 0x1F 0x8B
+            return fileHeader[0] == 0x1F && fileHeader[1] == 0x8B;
+        }
 
-                // Handle .zip files
-                if (extension == ".zip")
-                {
-                    Console.WriteLine($"-- Detected .zip file: {filePath}. Extracting... --");
-                    ZipFile.ExtractToDirectory(filePath, outputDirectory);
-                    return true;
-                }
-                // Handle other compressed formats using SharpCompress
-                else if (extension == ".tar" || extension == ".gz" || extension == ".7z" || extension == ".rar")
-                {
-                    Console.WriteLine($"-- Detected {extension} file: {filePath}. Extracting... --");
-                    using (var archive = ArchiveFactory.Open(filePath))
-                    {
-                        foreach (var entry in archive.Entries)
-                        {
-                            if (!entry.IsDirectory)
-                            {
-                                Console.WriteLine($"-- Extracting: {entry.Key} --");
-                                entry.WriteToDirectory(outputDirectory, new ExtractionOptions
-                                {
-                                    ExtractFullPath = true,
-                                    Overwrite = true
-                                });
-                            }
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"-- File {filePath} is not a supported compressed format. Skipping... --");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                // maybe this exception should be thrown instead of logged?
-                Console.WriteLine($"An error occurred while unpacking the file: {ex.Message}");
-            }
-            return false;
+        private bool Is7zFile(byte[] fileHeader)
+        {
+            // 7z files start with 0x37 0x7A 0xBC 0xAF
+            return fileHeader[0] == 0x37 && fileHeader[1] == 0x7A && fileHeader[2] == 0xBC && fileHeader[3] == 0xAF;
+        }
+
+        private bool IsRarFile(byte[] fileHeader)
+        {
+            // RAR files start with 0x52 0x61 0x72 0x21
+            return fileHeader[0] == 0x52 && fileHeader[1] == 0x61 && fileHeader[2] == 0x72 && fileHeader[3] == 0x21;
         }
     }
 }

@@ -32,7 +32,9 @@ public class UploadController : Controller
 
         try
         {
-            // Generate a unique file name to avoid conflicts
+            // Generate a unique file name to avoid conflicts. This
+            // is the ID of the one upload file at this point.
+            // Not the same as the ID of the processed result.
             var id = Guid.NewGuid().ToString();
             var fileName = id + ".upload";
             var filePath = Path.Combine(Settings.UploadPath, fileName);
