@@ -6,52 +6,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track List</title>
+    <script src="https://cdn.jsdelivr.net/npm/amplitudejs@5.3.2/dist/amplitude.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .amplitude-player {
+            margin-bottom: 20px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+        .track-list {
+            list-style: none;
+            padding: 0;
         }
-        th {
-            background-color: #f4f4f4;
+        .track-list li {
+            margin: 10px 0;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
+        .track-list li span {
+            margin-right: 10px;
         }
-        a:hover {
-            text-decoration: underline;
+        .amplitude-active-song-container {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <h1>Track List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Artist Name</th>
-                <th>Track Title</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var song in Model)
-            {
-                <tr>
-                    <td>@song.ArtistName</td>
-                    <td>@song.TrackTitle</td>
-                    <td><a href="@song.Link" target="_blank">Listen</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    <!-- AmplitudeJS Player -->
+    <div class="amplitude-player">
+        <div>
+            <span class="amplitude-song-title">Select a song to play</span> by
+            <span class="amplitude-artist-name"></span>
+        </div>
+        <button class="amplitude-prev">Previous</button>
+        <button class="amplitude-play-pause">Play/Pause</button>
+        <button class="amplitude-next">Next</button>
+    </div>
+
+    <!-- Track List -->
+    <ul class="track-list">
+        @foreach (var song in Model)
+        {
+            <li>
+                <span>@song.ArtistName - @song.TrackTitle</span>
+                <button class="amplitude-song-button" data-amplitude-song-index="@Model.ToList().IndexOf(song)">Play</button>
+            </li>
+        }
+    </ul>
+
+    <script>
+        // Initialize AmplitudeJS
+        Amplitude.init({
+            songs: [
+                @Html.Raw(
+                    string.Join(",",
+                        Model.Select(song => $@"{{
+                            ""name"": ""{song.TrackTitle}"",
+                            ""artist"": ""{song.ArtistName}"",
+                            ""url"": ""{song.Link}""
+                        }}")
+                    )
+                )
+            ]
+        });
+    </script>
 </body>
 </html>
