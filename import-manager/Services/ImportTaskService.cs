@@ -247,7 +247,7 @@ namespace ImportManager
             var newTrack = new Track
             {
                 Id = id, // Generate a unique ID
-                Checksum = checksum
+                Checksum = checksum,
                 ArtistName = artistName, 
                 TrackTitle = trackTitle, // todo: rename TrackName=>TrackTitle in the Track object
                 CreatedOn = DateTime.UtcNow
