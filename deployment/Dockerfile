@@ -1,7 +1,8 @@
 FROM ubuntu:22.04
 
 # We are root at the moment. Create a non-root user
-RUN useradd -ms /bin/bash deployuser
+RUN useradd -ms /bin/bash deployer
+RUN echo "force_color_prompt=yes" >> /home/deployer/.bashrc
 
 # Set environment variables to avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -26,13 +27,13 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN aws --version
 
 # Switch to the non-root user
-USER deployuser
+USER deployer
 
-# Verify the tail command as deployuser
+# Verify the tail command as deployer
 RUN /usr/bin/tail --version
 
 # Set the working directory
-WORKDIR /app/deployment
+WORKDIR /app/deployer
 
 # Keep the container running
 ENTRYPOINT ["tail", "-f", "/dev/null"]
