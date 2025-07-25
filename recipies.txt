@@ -1,3 +1,17 @@
+eksctl create cluster --name emb0x-cluster --region eu-west-1 --nodes 1 --node-type t3.medium
+
+Region is eu-west-1
+
+Try the latest AI suggestion
+
+docker-compose up --build
+
+
+Things to deploy
+
+Please write me an article about me being a victim of Reynhard Sinaga, but then later on the more important story about how someone pretended to be my friend all of a sudden and asked me questions about what the sex was like, and whether I had the best time of my life. Bearing in mind that I also got raped by Sinaga.
+
+
 Cattery password: w31a&YlOC&!aT5vk
 
 07822 811608
@@ -9,7 +23,10 @@ https://timex.co.uk/products/deepwater-reef-200-gmt-41mm-synthetic-rubber-strap-
   - Lots of features on that!
     - Dive watch
     - GMT
-    - Date
+    - Dateeksctl create cluster --name emb0x-cluster --region <your-region> --nodes 1 --node-type t3.medium
+
+
+
 
 
 Checksum is used in ProcessFile

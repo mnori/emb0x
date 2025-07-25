@@ -65,6 +65,8 @@ namespace SharedLibrary.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Checksum = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ArtistName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TrackTitle = table.Column<string>(type: "longtext", nullable: false)
@@ -76,6 +78,13 @@ namespace SharedLibrary.Migrations
                     table.PrimaryKey("PK_Track", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            // Add a unique index to the Checksum column
+            migrationBuilder.CreateIndex(
+                name: "IX_Track_Checksum",
+                table: "Track",
+                column: "Checksum",
+                unique: true);
         }
 
         /// <inheritdoc />
