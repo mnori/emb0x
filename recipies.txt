@@ -1,0 +1,264 @@
+DON'T USE THIS AS A SCRATCHPAD.
+Use ~/dev/notes.txt for that instead.
+
+docker-compose build --no-cache deployment
+docker-compose build deployment
+
+
+docker build --no-cache -t my-clean-build
+
+
+docker-compose up --build --no-cache deployment
+
+docker-compose up --build
+
+docker run -it ubuntu-deployment bash
+
+docker-compose up --build
+
+Create an Ubuntu instance to run deployment commands on!
+This avoids the problems with the Windows environment.
+Set the credentials in compose.yml using variables.
+Put the actual secrets in the .env file for compose.yml
+Can store the variables like SECURITY_GROUP_ID in a config.sh file
+
+
+Install AWS CLI windows
+
+
+eksctl create cluster --name emb0x-cluster --region eu-west-1 --nodes 1 --node-type t3.medium
+
+Region is eu-west-1
+
+Try the latest AI suggestion
+
+docker-compose up --build --no-cache
+
+
+Things to deploy
+
+Cattery password: w31a&YlOC&!aT5vk
+
+07822 811608
+
+GMT watch
+
+https://www.chrono24.co.uk/seiko/5-sports-gmt--id40497315.htm
+https://timex.co.uk/products/deepwater-reef-200-gmt-41mm-synthetic-rubber-strap-watch-tw2w75000
+  - Lots of features on that!
+    - Dive watch
+    - GMT
+    - Dateeksctl create cluster --name emb0x-cluster --region <your-region> --nodes 1 --node-type t3.medium
+
+
+
+
+
+Checksum is used in ProcessFile
+and compared against the colleciton
+Should replace with a DB query instead. The DB should have checksums stored.
+
+How to bind checksum to the Track table from the start?
+
+Use the table instead of 
+
+
+Debug plan
+ProcessFile is recursive
+
+Duplicate detection?
+
+- How to debug the recursive function ProcessFile in ImportTaskService?
+  - it's putting duplicate rows in the DB.
+  - Fix when sober
+  - Check the recently added debug logs
+
+
+Why does the import process produce duplicate rows in the Track
+
+Why is a zip upload not recognised as such?
+Is it looking at the extension?
+Shouldnt it be looking at the MIME type instead, i.e. check the first few bytes instead of the extension?
+
+Completing the upload process
+x- conversion to flac using ffmpeg
+x- upload to s3 with UUID filename
+x- store the UUID in the Track table as the ID
+x- artist name and track title
+
+
+
+
+1GB upload limit. Any more, you need to use FTP
+
+
+let's have a minio dockerfile
+
+Starting from the quay.io/minio/minio base image
+
+mc anonymous set public local/audio-files
+
+
+
+
+import-manager  | info: ImportManager.ImportTaskDaemon[0]
+
+
+Accessing an "s3" file
+
+Next step:
+
+- Establish import-manager Docker container. 
+- Just a box with a command line. 
+- Running a daemon process - ask the AI for another example
+
+
+The solution is to use Localhost:
+
+ConnectionStrings__Emb0xDatabaseContext="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;" \
+dotnet ef database update -p SharedLibrary -s webapp
+
+
+dotnet ef database update -p SharedLibrary -s webapp -- --connection-string="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+
+
+
+To run migration:
+
+ConnectionStrings__Emb0xDatabaseContext="Server=localhost;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;" \
+dotnet ef database update -p SharedLibrary -s webapp
+
+Emb0xDatabaseContext="Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+
+Then
+
+dotnet ef migrations add Track -p SharedLibrary -s webapp
+dotnet ef migrations add ImportTask -p SharedLibrary -s webapp
+
+Then
+
+dotnet ef database update -p SharedLibrary -s webapp
+
+
+
+"I had forgotten that you are only a common boy. How should you understand reasons of the State? You must learn, child, that what would be wrong for you or for any of the common people is not wrong in a great Queen such as I. The weight of the world is on our shoulders. We must be freed from all rules. Ours is a high and lonely destiny." - Jadis
+
+
+
+Import Engine
+- Need a new volume that can be shared between the webapp and the import-manager.
+- Need an interface that allows a file (any type) to be uploaded and then placed into the shared volume. Direct upload to the volume.
+
+
+
+Get the daemon container running.
+
+Each task in the database table produces a 5 second delay response in the task-manager
+
+import-manager
+ImportManager.csproj
+
+
+dotnet aspnet-codegenerator controller -name TaskController -m Task -dc SharedLibrary.Data.MvcTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+dotnet aspnet-codegenerator controller -name BackgroundTaskController -m BackgroundTask -dc MvcBackgroundTaskContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries --databaseProvider sqlite
+
+
+Next steps:
+
+- Creating and managing tasks.
+- Tasks table
+- c# Daemon - Tasks container.
+- Web server uploads onto a special volume - imports
+
+
+dotnet add "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj" package Microsoft.EntityFrameworkCore
+dotnet add "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj" package Pomelo.EntityFrameworkCore.MySql
+dotnet build "c:\Users\matth\dev\emb0x\SharedLibrary\SharedLibrary.csproj"
+---------------------------------------------------------------------
+
+Clear database
+docker volume rm emb0x_db_data
+docker-compose down
+
+docker-compose up --build
+dotnet clean
+dotnet build
+
+How to run the migrations:
+
+docker exec -it webbapp-1 bash
+
+Problem is that it crashes due to 
+
+docker-compose run webapp dotnet ef database update
+
+
+dotnet add package Microsoft.EntityFrameworkCore --version 8.0.13
+dotnet add package Microsoft.EntityFrameworkCore.Relational --version 8.0.13
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.13
+
+
+
+
+
+Use the following commands to apply migrations:
+docker run -it --rm \
+  -v /c/Users/matth/dev/emb0x/webapp:/app \
+  -w /app \
+  webapp:latest \
+  dotnet ef database update
+
+docker-compose up
+docker-compose up --build
+
+How can I launch a dotnet web MVC server container using docker-compose?
+
+Important commands
+
+dotnet run: start the web server
+docker run -d -p 5000:5000 -p 5001:5001 --name webapp-container -e ASPNETCORE_ENVIRONMENT=Development webapp:latest
+
+DB reset:
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+Go here to see it http://localhost:5190/
+
+b0nfire
+firest0rm
+
+Reset DB:
+
+
+
+------------------------------------------------------------------------
+
+- Get into an ubuntu docker container:
+	docker exec -it ubuntu_instance bash
+    
+Autogen a model class.
+
+------------------------------------------------------------------------
+
+Follow this:
+https://learn.microsoft.com/en-gb/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-9.0&WT.mc_id=dotnet-35129-website&tabs=visual-studio-code
+
+https://learn.microsoft.com/en-gb/aspnet/core/tutorials/first-mvc-app/adding-controller?view=aspnetcore-9.0&tabs=visual-studio
+
+------------------------------------------------------------------------
+
+Trust the HTTPS development certificate and run the app
+
+dotnet dev-certs https --trust
+cd webapp
+dotnet run
+
+Go to http://localhost:5190/
+
+------------------------------------------------------------------------
+
+firest0rm.net - commercial example. firest0rm.io
+£1 a month - dynamic pricing
+
+Play on the left design
