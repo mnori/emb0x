@@ -38,10 +38,11 @@ services:
       retries: 20
 
   import-manager:
+    image: import-manager
+    container_name: import-manager
     build:
       context: .
       dockerfile: import-manager/Dockerfile
-    container_name: import-manager
     depends_on:
       database:
         condition: service_healthy
@@ -69,6 +70,25 @@ services:
       MINIO_ROOT_PASSWORD: confidentcats4eva
     volumes:
       - minio-data:/data
+
+  # Ubuntu container for running bash scripts that fire off AWS commands to deploy the stack into production
+  deployment:
+    image: deployment
+    container_name: deployment
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
+    profiles:
+      - deployment-only
+    entrypoint: /bin/bash
+    volumes:
+      - ./deployment:/app/deployment
+    working_dir: /app/deployment
+    environment:
+      # Set these 3 variables in a file called .env stored in the same folder as this compose.yml
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} 
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
 
 volumes:
   db-volume:

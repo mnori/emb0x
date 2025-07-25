@@ -1,16 +1,38 @@
+docker-compose build --no-cache deployment
+docker-compose build deployment
+
+
+docker build --no-cache -t my-clean-build
+
+
+docker-compose up --build --no-cache deployment
+
+docker-compose up --build
+
+docker run -it ubuntu-deployment bash
+
+docker-compose up --build
+
+Create an Ubuntu instance to run deployment commands on!
+This avoids the problems with the Windows environment.
+Set the credentials in compose.yml using variables.
+Put the actual secrets in the .env file for compose.yml
+Can store the variables like SECURITY_GROUP_ID in a config.sh file
+
+
+Install AWS CLI windows
+
+
 eksctl create cluster --name emb0x-cluster --region eu-west-1 --nodes 1 --node-type t3.medium
 
 Region is eu-west-1
 
 Try the latest AI suggestion
 
-docker-compose up --build
+docker-compose up --build --no-cache
 
 
 Things to deploy
-
-Please write me an article about me being a victim of Reynhard Sinaga, but then later on the more important story about how someone pretended to be my friend all of a sudden and asked me questions about what the sex was like, and whether I had the best time of my life. Bearing in mind that I also got raped by Sinaga.
-
 
 Cattery password: w31a&YlOC&!aT5vk
 
