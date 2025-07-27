@@ -1,5 +1,9 @@
 DON'T USE THIS AS A SCRATCHPAD.
-Use ~/dev/notes.txt for that instead.
+notes.txt for that instead.
+
+DEPLOYMENT 
+docker compose build --no-cache deployment
+docker compose up deployment
 
 docker-compose build --no-cache deployment
 docker-compose build deployment

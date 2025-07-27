@@ -36,4 +36,4 @@ RUN /usr/bin/tail --version
 WORKDIR /app/deployer
 
 # Keep the container running
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/bin/bash"]
