@@ -1,14 +1,17 @@
 #!/bin/bash
-source ~/.bashrc # How to get rid of this stupidity? It doesn't work without it.
 
-# Security group creation script for Emb0x deployment. Requires AWS CLI configured with appropriate permissions.
+# Security group creation script for Emb0x deployment on LocalStack.
+
+ENDPOINT="--endpoint-url http://localhost:4566"
+REGION="--region us-east-1"
 
 # Variables
-VPC_ID=$(aws ec2 describe-vpcs --query "Vpcs[0].VpcId" --output text) # Get the default VPC ID
+VPC_ID=$(aws ec2 describe-vpcs $ENDPOINT $REGION --query "Vpcs[0].VpcId" --output text)
 SECURITY_GROUP_NAME="emb0x-security-group"
 
 # Check if the security group already exists
 EXISTING_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
+    $ENDPOINT $REGION \
     --filters "Name=group-name,Values=$SECURITY_GROUP_NAME" \
     --query "SecurityGroups[0].GroupId" \
     --output text 2>/dev/null)
@@ -19,6 +22,7 @@ if [ "$EXISTING_SECURITY_GROUP_ID" != "None" ]; then
 else
     # Create the security group
     SECURITY_GROUP_ID=$(aws ec2 create-security-group \
+        $ENDPOINT $REGION \
         --group-name $SECURITY_GROUP_NAME \
         --description "Security group for Emb0x instance" \
         --vpc-id $VPC_ID \
@@ -28,34 +32,34 @@ else
     echo "Created Security Group: $SECURITY_GROUP_ID"
 
     # Allow SSH (port 22)
-    aws ec2 authorize-security-group-ingress \
+    aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
         --group-id $SECURITY_GROUP_ID \
         --protocol tcp \
         --port 22 \
         --cidr 0.0.0.0/0
 
     # Allow HTTP (port 5000 for web app)
-    aws ec2 authorize-security-group-ingress \
+    aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
         --group-id $SECURITY_GROUP_ID \
         --protocol tcp \
         --port 5000 \
         --cidr 0.0.0.0/0
 
     # Allow MinIO (ports 9000 and 9001)
-    aws ec2 authorize-security-group-ingress \
+    aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
         --group-id $SECURITY_GROUP_ID \
         --protocol tcp \
         --port 9000 \
         --cidr 0.0.0.0/0
 
-    aws ec2 authorize-security-group-ingress \
+    aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
         --group-id $SECURITY_GROUP_ID \
         --protocol tcp \
         --port 9001 \
         --cidr 0.0.0.0/0
 
     # Allow MySQL (port 3306, optional)
-    aws ec2 authorize-security-group-ingress \
+    aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
         --group-id $SECURITY_GROUP_ID \
         --protocol tcp \
         --port 3306 \
