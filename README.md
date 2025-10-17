@@ -43,8 +43,4 @@ yet to be implemented but expect to reach this side of the project soon and have
 
 give me the author (@mnori) a shout if you have any queries or if you are interested in contributing even. if you are mad or brave enough to try adding something to this project, best check with me first just to make sure you're not doing the same shit that someone else is already doing innit. i really do welcome other people's contributions though in all seriousness. who knows, if this thing ever gets big, and you've made a stamp on it, it could help you find a nice job etc etc
 
-have fun!
-
-further up and further in
-
 *confidentcats4eva*
