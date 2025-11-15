@@ -2,11 +2,12 @@
 
 # Security group creation script for Emb0x deployment on LocalStack.
 
-ENDPOINT="--endpoint-url http://localhost:4566"
+# ENDPOINT="--endpoint-url http://localhost:4566"
 REGION="--region us-east-1"
 
 # Variables
-VPC_ID=$(aws ec2 describe-vpcs $ENDPOINT $REGION --query "Vpcs[0].VpcId" --output text)
+VPC_ID=$(aws ec2 describe-vpcs $REGION --query "Vpcs[0].VpcId" --output text)
+# VPC_ID=$(aws ec2 describe-vpcs $ENDPOINT $REGION --query "Vpcs[0].VpcId" --output text)
 SECURITY_GROUP_NAME="emb0x-security-group"
 
 # Check if the security group already exists

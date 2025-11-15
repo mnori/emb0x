@@ -1,22 +1,41 @@
+To get deployment bash, use this!
+docker compose run deployment
+
+
+C:\Users\matth\OneDrive\Documents\Soulseek Downloads\complete\Bakkelaar\Radio 2 Top 2000
+
+Triplets
+
+72 * 2
+
+144 bpm
+
+
+WU72 COA
+
+aws ec2 describe-instances --endpoint-url http://localhost:4566 --region us-east-1
+aws ec2 describe-security-groups --endpoint-url http://localhost:4566 --region us-east-1
+docker compose run deployment bash
+
 DON'T USE THIS AS A SCRATCHPAD.
 notes.txt for that instead.
 
 DEPLOYMENT 
-docker compose build --no-cache deployment
-docker compose up deployment
+c
+docker compose run deployment
 
 docker-compose build --no-cache deployment
-docker-compose build deployment
+docker-compose build database
 
 
 docker build --no-cache -t my-clean-build
 
 
-docker-compose up --build --no-cache deployment
+docker-compose up --build --no-cache database
 
 docker-compose up --build
 
-docker run -it ubuntu-deployment bash
+docker run -it deployment bash
 
 docker-compose up --build
 
