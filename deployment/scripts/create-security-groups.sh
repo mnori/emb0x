@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Security group creation script for Emb0x deployment on LocalStack.
-
+# Security group creation script for Emb0x deployment
 # ENDPOINT="--endpoint-url http://localhost:4566"
-REGION="--region us-east-1"
+REGION="--region ${AWS_REGION}"
 
 # Variables
 VPC_ID=$(aws ec2 describe-vpcs $REGION --query "Vpcs[0].VpcId" --output text)
@@ -29,6 +28,8 @@ else
         --vpc-id $VPC_ID \
         --query "GroupId" \
         --output text)
+
+    echo "$SECURITY_GROUP_ID" > security-group-id.txt
 
     echo "Created Security Group: $SECURITY_GROUP_ID"
 
@@ -67,4 +68,6 @@ else
         --cidr 0.0.0.0/0
 
     echo "Security group rules added."
+
+    echo "$SECURITY_GROUP_ID" > security-group-id.txt
 fi

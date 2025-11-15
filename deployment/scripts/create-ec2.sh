@@ -1,22 +1,21 @@
 #!/bin/bash
 
-# Dummy values for LocalStack (these can be anything)
-IMAGE_ID="ami-12345678"
-SECURITY_GROUP_ID="sg-12345678"
-SUBNET_ID="subnet-12345678"
-KEY_NAME="localstack-key"
+IMAGE_ID="ami-022814934cf926361" # This is the Ubuntu Jammy LTS release
+SECURITY_GROUP_ID=$(cat security-group-id.txt)
+SUBNET_ID=$(cat subnet-id.txt)
+KEY_NAME="emb0x-key"
 
-export AWS_ACCESS_KEY_ID=test
-export AWS_SECRET_ACCESS_KEY=test
+# aws configure
+aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+aws configure set region "$AWS_REGION"
 
-aws configure
-
+# Need to do something about hardcoded region in the scripts
 aws ec2 run-instances \
-    --endpoint-url http://localhost:4566 \
-    --region us-east-1 \
+    --region $AWS_REGION \
     --image-id $IMAGE_ID \
     --count 1 \
-    --instance-type t2.micro \
+    --instance-type t3.micro \
     --key-name $KEY_NAME \
     --security-group-ids $SECURITY_GROUP_ID \
     --subnet-id $SUBNET_ID \
