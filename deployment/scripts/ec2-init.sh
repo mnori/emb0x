@@ -1,5 +1,5 @@
 #!/bin/bash
-# Dafuq is this?
+# This script is used to initialise the "deployment" container
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl enable docker
