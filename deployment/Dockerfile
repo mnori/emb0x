@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/usr/bin:${PATH}"
 
 # Update the package list and install dependencies
-RUN apt-get update && apt-get install -y coreutils curl unzip
+RUN apt-get update && apt-get install -y coreutils curl unzip less
 
 # Verify the tail command as root
 RUN /usr/bin/tail --version

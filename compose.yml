@@ -13,7 +13,7 @@ services:
       ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
       MYSQL_HOST: database
       MYSQL_USER: root
-      MYSQL_PASSWORD: confidentcats4eva
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: emb0x
     ports:
       - "5000:5000"
@@ -29,7 +29,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: confidentcats4eva
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: emb0x
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
@@ -67,7 +67,7 @@ services:
       - "9001:9001"
     environment:
       MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: confidentcats4eva
+      MINIO_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - minio-data:/data
 

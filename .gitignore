@@ -3,3 +3,5 @@ conversion/ffmpeg/
 webapp/bin/Debug/
 webapp/obj/Debug/
 notes.txt
+recipies.txt
+.env
