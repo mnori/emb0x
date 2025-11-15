@@ -1,4 +1,5 @@
 #!/bin/bash
+# Dafuq is this?
 sudo apt update
 sudo apt install -y docker.io
 sudo systemctl enable docker

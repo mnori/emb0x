@@ -1,25 +1,12 @@
 #!/bin/bash
 
 # Security group creation script for Emb0x deployment
-# ENDPOINT="--endpoint-url http://localhost:4566"
 REGION="--region ${AWS_REGION}"
 
 # Variables
-VPC_ID=$(cat vpc-id.txt)
-# VPC_ID=$(aws ec2 describe-vpcs $ENDPOINT $REGION --query "Vpcs[0].VpcId" --output text)
+VPC_ID=$(cat data/vpc-id.txt)
 SECURITY_GROUP_NAME="emb0x-security-group"
 
-# Check if the security group already exists
-# EXISTING_SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
-#     $ENDPOINT $REGION \
-#     --filters "Name=group-name,Values=$SECURITY_GROUP_NAME" \
-#     --query "SecurityGroups[0].GroupId" \
-#     --output text 2>/dev/null)
-
-# if [ "$EXISTING_SECURITY_GROUP_ID" != "None" ]; then
-#     echo "Security group '$SECURITY_GROUP_NAME' already exists with ID: $EXISTING_SECURITY_GROUP_ID"
-#     SECURITY_GROUP_ID=$EXISTING_SECURITY_GROUP_ID
-# else
 # Create the security group
 SECURITY_GROUP_ID=$(aws ec2 create-security-group \
     $ENDPOINT $REGION \
@@ -29,7 +16,7 @@ SECURITY_GROUP_ID=$(aws ec2 create-security-group \
     --query "GroupId" \
     --output text)
 
-echo "$SECURITY_GROUP_ID" > security-group-id.txt
+echo "$SECURITY_GROUP_ID" > data/security-group-id.txt
 
 echo "Created Security Group: $SECURITY_GROUP_ID"
 
@@ -69,5 +56,4 @@ aws ec2 authorize-security-group-ingress $ENDPOINT $REGION \
 
 echo "Security group rules added."
 
-echo "$SECURITY_GROUP_ID" > security-group-id.txt
-# fi
+echo "$SECURITY_GROUP_ID" > data/security-group-id.txt

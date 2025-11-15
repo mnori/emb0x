@@ -7,7 +7,7 @@ VPC_ID=$(aws ec2 create-vpc \
     --query 'Vpc.VpcId' --output text)
 
 echo "Created VPC: $VPC_ID"
-echo "$VPC_ID" > vpc-id.txt
+echo "$VPC_ID" > data/vpc-id.txt
 
 # Create a subnet in the VPC
 SUBNET_ID=$(aws ec2 create-subnet \
@@ -17,4 +17,4 @@ SUBNET_ID=$(aws ec2 create-subnet \
     --query 'Subnet.SubnetId' --output text)
 
 echo "Created Subnet: $SUBNET_ID"
-echo "$SUBNET_ID" > subnet-id.txt
+echo "$SUBNET_ID" > data/subnet-id.txt
