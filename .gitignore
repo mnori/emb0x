@@ -5,5 +5,5 @@ webapp/obj/Debug/
 notes.txt
 recipies.txt
 .env
-deployment/scripts/*id.txt
+deployment/scripts/data/*id.txt
 deployment/scripts/secrets.env

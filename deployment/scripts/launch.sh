@@ -6,4 +6,4 @@ source ./secrets.env
 ./create-vpc-subnet.sh
 ./create-security-groups.sh
 ./create-ec2.sh
-echo "Deployment complete."
+echo "Deployment process reached end."

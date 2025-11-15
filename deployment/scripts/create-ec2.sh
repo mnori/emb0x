@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMAGE_ID="ami-022814934cf926361" # This is the Ubuntu Jammy LTS release
-SECURITY_GROUP_ID=$(cat security-group-id.txt)
+SECURITY_GROUP_ID=$(cat data/security-group-id.txt)
 SUBNET_ID=$(cat data/subnet-id.txt)
 KEY_NAME="emb0x-key"
 
@@ -10,7 +10,7 @@ aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
 aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
 aws configure set region "$AWS_REGION"
 
-# Need to do something about hardcoded region in the scripts
+# Create the instance
 INSTANCE_ID=$(aws ec2 run-instances \
     --region $AWS_REGION \
     --image-id $IMAGE_ID \
@@ -25,5 +25,4 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --output text)
 
 echo "$INSTANCE_ID" > data/instance-id.txt
-
 echo "Created EC2 Instance: $INSTANCE_ID"
