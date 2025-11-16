@@ -16,50 +16,6 @@ INSTANCE_NAME="emb0x-instance"
 SECURITY_GROUP_ID=$(cat data/security-group-id.txt)
 SUBNET_ID=$(cat data/subnet-id.txt)
 
-# Optional: terminate any existing instance with same Name tag (non-blocking)
-# Cleanly collect existing, non-terminated instance IDs
-# Collect non-terminated, tagged instances
-RAW_IDS=$(aws ec2 describe-instances \
-  --filters "Name=tag:Name,Values=${INSTANCE_NAME}" \
-            "Name=instance-state-name,Values=running,pending,stopping,stopped" \
-  --query "Reservations[].Instances[].InstanceId" \
-  --output text \
-  --region "$AWS_REGION" || true)
-
-# Normalize (strip CRLF, remove duplicates)
-EXISTING_IDS=""
-for ID in $RAW_IDS; do
-  CLEAN_ID=$(echo "$ID" | tr -d '\r')
-  [[ -n "$CLEAN_ID" ]] && EXISTING_IDS+=" $CLEAN_ID"
-done
-EXISTING_IDS=$(echo "$EXISTING_IDS" | xargs -n1 | sort -u | xargs)
-
-if [ -n "$EXISTING_IDS" ]; then
-  echo "Found candidate instances: $EXISTING_IDS"
-  VALID_IDS=()
-  for ID in $EXISTING_IDS; do
-    STATE=$(aws ec2 describe-instances --instance-ids "$ID" \
-      --query "Reservations[0].Instances[0].State.Name" \
-      --output text --region "$AWS_REGION" 2>/dev/null || echo "missing")
-    if [[ "$STATE" == "running" || "$STATE" == "stopped" || "$STATE" == "pending" || "$STATE" == "stopping" ]]; then
-      VALID_IDS+=("$ID")
-      echo "Keep $ID (state=$STATE)"
-    else
-      echo "Skip $ID (state=$STATE)"
-    fi
-  done
-
-  if [ ${#VALID_IDS[@]} -gt 0 ]; then
-    echo "Terminating: ${VALID_IDS[*]}"
-    aws ec2 terminate-instances --instance-ids "${VALID_IDS[@]}" --region "$AWS_REGION"
-    aws ec2 wait instance-terminated --instance-ids "${VALID_IDS[@]}" --region "$AWS_REGION"
-  else
-    echo "No valid instances to terminate."
-  fi
-else
-  echo "No existing instances to terminate."
-fi
-
 # Launch new instance
 INSTANCE_ID=$(aws ec2 run-instances \
   --region "$AWS_REGION" \
@@ -116,28 +72,43 @@ aws ec2 associate-route-table \
   --region "$AWS_REGION" >/dev/null 2>&1 || true
 
 # Allocate or reuse Elastic IP
-if [ -s data/eip-allocation-id.txt ]; then
-  EIP_ALLOC_ID=$(cat data/eip-allocation-id.txt)
-else
-  EIP_ALLOC_ID=$(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text --region "$AWS_REGION")
+# Reuse existing Elastic IP from public-ip.txt (if present)
+EXISTING_PUBLIC_IP=""
+if [ -s data/public-ip.txt ]; then
+  EXISTING_PUBLIC_IP=$(tr -d '\r\n' < data/public-ip.txt)
+fi
+
+if [ -n "$EXISTING_PUBLIC_IP" ]; then
+  # Find its allocation ID
+  EIP_ALLOC_ID=$(aws ec2 describe-addresses \
+    --public-ips "$EXISTING_PUBLIC_IP" \
+    --query 'Addresses[0].AllocationId' \
+    --output text --region "$AWS_REGION" 2>/dev/null || echo "None")
+fi
+
+# If no allocation ID found, fall back to existing file or allocate new
+if [ -z "${EIP_ALLOC_ID:-}" ] || [ "$EIP_ALLOC_ID" = "None" ]; then
+  if [ -s data/eip-allocation-id.txt ]; then
+    EIP_ALLOC_ID=$(tr -d '\r\n' < data/eip-allocation-id.txt)
+  fi
+fi
+
+if [ -z "${EIP_ALLOC_ID:-}" ] || [ "$EIP_ALLOC_ID" = "None" ]; then
+  EIP_ALLOC_ID=$(aws ec2 allocate-address --domain vpc \
+    --query 'AllocationId' --output text --region "$AWS_REGION")
   echo "$EIP_ALLOC_ID" > data/eip-allocation-id.txt
 fi
 
-# Disassociate existing
+# Disassociate if currently attached
 CURRENT_ASSOC=$(aws ec2 describe-addresses --allocation-ids "$EIP_ALLOC_ID" \
-  --query 'Addresses[0].AssociationId' --output text --region "$AWS_REGION" || echo "None")
-if [ "$CURRENT_ASSOC" != "None" ] && [ -n "$CURRENT_ASSOC" ]; then
-  aws ec2 disassociate-address --association-id "$CURRENT_ASSOC" --region "$AWS_REGION"
-fi
+  --query 'Addresses[0].AssociationId' --output text --region "$AWS_REGION" 2>/dev/null || echo "None")
+[ "$CURRENT_ASSOC" != "None" ] && aws ec2 disassociate-address --association-id "$CURRENT_ASSOC" --region "$AWS_REGION" || true
 
-# Associate Elastic IP
+# Associate Elastic IP to new instance
 aws ec2 associate-address --allocation-id "$EIP_ALLOC_ID" --instance-id "$INSTANCE_ID" --region "$AWS_REGION"
 
-# Get stable public IP
-PUBLIC_IP=$(aws ec2 describe-addresses \
-  --allocation-ids "$EIP_ALLOC_ID" \
+# Refresh public IP (same as before if reused)
+PUBLIC_IP=$(aws ec2 describe-addresses --allocation-ids "$EIP_ALLOC_ID" \
   --query 'Addresses[0].PublicIp' --output text --region "$AWS_REGION")
 echo "$PUBLIC_IP" > data/public-ip.txt
-
-echo "Elastic IP: $PUBLIC_IP"
-echo "Saved: instance-id.txt eip-allocation-id.txt public-ip.txt"
+echo "Elastic IP (retained): $PUBLIC_IP"
