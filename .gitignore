@@ -6,4 +6,5 @@ conversion/ffmpeg/
 webapp/bin/Debug/
 webapp/obj/Debug/
 deployment/scripts/data/*id.txt
+deployment/scripts/data/public-ip.txt
 deployment/scripts/secrets.env
