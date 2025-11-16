@@ -25,7 +25,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --key-name "$KEY_NAME" \
   --subnet-id "$SUBNET_ID" \
   --security-group-ids "$SECURITY_GROUP_ID" \
-  --user-data file://ec2-init.sh \
+  --user-data file://instance-init.sh \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]" \
   --query "Instances[0].InstanceId" \
   --output text)
