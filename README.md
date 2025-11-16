@@ -32,7 +32,7 @@ if you use mac or linux, i am sure you can get it all working on that as well if
 
 # AWS deployment (production)
 
-yet to be implemented but expect to reach this side of the project soon and have the first prototype published online in a few week's time. i am thinking about reading up on kubernates and finally dipping my toes in that thing cos i still haven't touched it yet despite working in tech for ages.
+yet to be implemented but expect to reach this side of the project soon and have the first prototype published online in a few week's time. i can't use Kubernetes because it's expensive, and I want it to be cheap for people to run their own nodes. so i've been putting together an automated deployment using bash scripts. hope to have this completed shorty.
 
 # useful addresses to test the thing out with
 - visit http://localhost:5000/Upload when the docker containers have all started to try uploading a file. The upload system accepts compressed files containing multiple tracks, or individual audio files, any mainstream archive file type or audio format should be supported. the form has a limit of 1gb though as the web upload element doesn't cope with files that are too big. i'm going to add a new feature that supports ftp uploads for cases when you have an enourmous amount of material to import, like the embers breaks corpus for example, which is well over 500 individual tracks, 60gb total.
