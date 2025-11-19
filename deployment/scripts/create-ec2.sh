@@ -4,10 +4,8 @@ set -euo pipefail
 : "${AWS_REGION:=eu-central-1}"
 export AWS_PAGER=""
 
-mkdir -p data
-
 # Config (adjust if needed)
-IMAGE_ID="ami-022814934cf926361"
+IMAGE_ID="ami-022814934cf926361" # Ubuntu LTS AMI
 INSTANCE_TYPE="t3.micro"
 KEY_NAME="emb0x-key"
 INSTANCE_NAME="emb0x-instance"
@@ -33,7 +31,31 @@ INSTANCE_ID=$(aws ec2 run-instances \
 echo "$INSTANCE_ID" > data/instance-id.txt
 echo "Instance created: $INSTANCE_ID (waiting for running state...)"
 
+# ...existing code...
 aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "$AWS_REGION"
+
+# Attach DB volume if present
+if [ -s data/ebs-db-volume-id.txt ]; then
+  DB_VOLUME_ID=$(tr -d '\r\n' < data/ebs-db-volume-id.txt)
+  VOLUME_AZ=$(aws ec2 describe-volumes --volume-ids "$DB_VOLUME_ID" \
+    --query 'Volumes[0].AvailabilityZone' --output text --region "$AWS_REGION")
+  INSTANCE_AZ=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
+    --query 'Reservations[0].Instances[0].Placement.AvailabilityZone' --output text --region "$AWS_REGION")
+  if [ "$VOLUME_AZ" = "$INSTANCE_AZ" ]; then
+    echo "Attaching volume $DB_VOLUME_ID to instance $INSTANCE_ID"
+    # Prevent Git Bash from converting /dev/sdf
+    export MSYS_NO_PATHCONV=1
+    export MSYS2_ARG_CONV_EXCL="/dev/sdf:/dev/xvdf"
+    aws ec2 attach-volume \
+      --volume-id "$DB_VOLUME_ID" \
+      --instance-id "$INSTANCE_ID" \
+      --device /dev/sdf \
+      --region "$AWS_REGION"
+    aws ec2 wait volume-in-use --volume-ids "$DB_VOLUME_ID" --region "$AWS_REGION"
+  else
+    echo "Skip attach: volume AZ $VOLUME_AZ != instance AZ $INSTANCE_AZ"
+  fi
+fi
 
 # Ensure VPC has IGW + default route
 VPC_ID=$(aws ec2 describe-subnets --subnet-ids "$SUBNET_ID" \

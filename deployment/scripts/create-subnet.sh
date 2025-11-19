@@ -2,7 +2,6 @@
 set -euo pipefail
 source ./secrets.env
 : "${AWS_REGION:=eu-central-1}"
-mkdir -p data
 
 # Require existing VPC ID file
 if [ ! -s data/vpc-id.txt ]; then
