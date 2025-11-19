@@ -7,4 +7,5 @@ webapp/bin/Debug/
 webapp/obj/Debug/
 deployment/scripts/data/*id.txt
 deployment/scripts/data/public-ip.txt
+deployment/scripts/data/ebs-db-volume-summary.txt
 deployment/scripts/secrets.env

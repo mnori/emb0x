@@ -33,7 +33,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
 echo "$INSTANCE_ID" > data/instance-id.txt
 echo "Instance created: $INSTANCE_ID (waiting for running state...)"
 
-# ...existing code...
 aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "$AWS_REGION"
 
 # Ensure VPC has IGW + default route
