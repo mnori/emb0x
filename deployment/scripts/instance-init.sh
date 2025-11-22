@@ -13,27 +13,18 @@ apt-get install -y software-properties-common
 add-apt-repository -y universe
 apt-get update
 
-# apt-get install -y docker.io docker-compose-plugin
-# docker compose version
-
+# Install Docker
 echo "Installing Docker and Docker Compose..."
-
 curl -fsSL https://get.docker.com | sh
 mkdir -p /usr/lib/docker/cli-plugins
 COMPOSE_VERSION=v2.24.6
 curl -SL https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-linux-$(uname -m) -o /usr/lib/docker/cli-plugins/docker-compose
 chmod +x /usr/lib/docker/cli-plugins/docker-compose
 docker compose version
-
 echo "...Docker and Docker Compose installed."
 
-# apt-get update
-# apt-get install -y docker.io docker-compose-plugin
-# systemctl enable --now docker
-
+# Wait for attached EBS device (if present)
 echo "MySQL EBS volume setup..."
-
-# # Wait for attached EBS device (if present)
 DEVICE=""
 for i in $(seq 1 30); do
   echo "Checking for attached EBS device (attempt $i)..."
@@ -68,16 +59,4 @@ echo "...MySQL EBS volume setup complete."
 # # docker compose up -d || true
 
 # echo "...Docker Compose stack started."
-
 echo "Reached end of instance-init.sh deployment script."
-
-# #!/bin/bash
-# # This script is used to initialise the "deployment" container
-# sudo apt update
-# sudo apt install -y docker.io
-# sudo systemctl enable docker
-# sudo systemctl start docker
-# sudo curl -L "https://github.com/docker/compose/releases/download/2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# sudo chmod +x /usr/local/bin/docker-compose
-# docker --version
-# docker-compose --version

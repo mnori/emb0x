@@ -143,3 +143,6 @@ PUBLIC_IP=$(aws ec2 describe-addresses --allocation-ids "$EIP_ALLOC_ID" \
 echo "$PUBLIC_IP" > data/public-ip.txt
 echo "Elastic IP (retained): $PUBLIC_IP"
 
+./wait-for-ec2-setup.sh
+
+

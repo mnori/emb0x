@@ -5,8 +5,6 @@ conversion/result/
 conversion/ffmpeg/
 webapp/bin/Debug/
 webapp/obj/Debug/
-deployment/scripts/data/*id.txt
-deployment/scripts/data/public-ip.txt
-deployment/scripts/data/ebs-db-volume-summary.txt
-deployment/scripts/data/emb0x-key.pem
+deployment/scripts/data/*
+!deployment/scripts/data/.gitkeep
 deployment/scripts/secrets.env
