@@ -1,7 +1,7 @@
 #!/bin/bash
 source ./secrets.env
-
-# Ensure VPC / Subnet exist (for AZ lookup)
+echo "Creating persistent resources..."
 ./create-vpc.sh
 ./create-subnet.sh
 ./create-database-ebs-volume.sh
+echo "...Persistent resource creation complete."

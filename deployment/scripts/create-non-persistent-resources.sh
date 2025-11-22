@@ -1,10 +1,6 @@
 #!/bin/bash
 source ./secrets.env
-
-echo "Creating resources..."
-# Create the new versions of the stuff
-# ./create-vpc.sh
-# ./create-subnet.sh
+echo "Creating non persistent resources..."
 ./create-security-groups.sh
 ./create-ec2.sh
-echo "...Resource creation complete."
+echo "...Non persistent resource creation complete."

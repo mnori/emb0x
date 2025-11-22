@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./secrets.env # just so you can run it on its own for testing
 
 # Stops terminal being held up by AWS CLI pagers
 : "${AWS_REGION:=$AWS_REGION}"

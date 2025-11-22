@@ -1,4 +1,5 @@
 #!/bin/bash
+source ./secrets.env # just so you can run it on its own for testing
 set -euo pipefail
 
 : "${AWS_REGION:=eu-central-1}"
@@ -14,7 +15,15 @@ INSTANCE_NAME="emb0x-instance"
 SECURITY_GROUP_ID=$(cat data/security-group-id.txt)
 SUBNET_ID=$(cat data/subnet-id.txt)
 
-# Launch new instance
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+USER_DATA_FILE="$SCRIPT_DIR/instance-init.sh"
+
+echo "Using user data script: $USER_DATA_FILE"
+if [ ! -f "$USER_DATA_FILE" ]; then
+  echo "Missing instance-init.sh at $USER_DATA_FILE"
+  exit 1
+fi
+
 INSTANCE_ID=$(aws ec2 run-instances \
   --region "$AWS_REGION" \
   --image-id "$IMAGE_ID" \
@@ -23,7 +32,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --key-name "$KEY_NAME" \
   --subnet-id "$SUBNET_ID" \
   --security-group-ids "$SECURITY_GROUP_ID" \
-  --user-data file://instance-init.sh \
+  --user-data "file://$USER_DATA_FILE" \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]" \
   --query "Instances[0].InstanceId" \
   --output text)

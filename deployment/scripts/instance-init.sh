@@ -1,13 +1,25 @@
 #!/bin/bash
 set -e
 
+echo "Starting instance-init.sh..."
+
+set -x 
+
+apt-get update
+apt-get install -y software-properties-common
+add-apt-repository -y universe
 apt-get update
 apt-get install -y docker.io docker-compose-plugin
-systemctl enable --now docker
+docker compose version
+
+# apt-get update
+# apt-get install -y docker.io docker-compose-plugin
+# systemctl enable --now docker
 
 # Wait for attached EBS device (if present)
 DEVICE=""
 for i in $(seq 1 30); do
+  echo "Checking for attached EBS device (attempt $i)..."
   for cand in /dev/xvdf /dev/sdf /dev/nvme1n1; do
     if [ -b "$cand" ]; then DEVICE="$cand"; break; fi
   done
@@ -16,6 +28,7 @@ for i in $(seq 1 30); do
 done
 
 if [ -n "$DEVICE" ]; then
+  echo "Found attached EBS device: $DEVICE"
   if ! blkid "$DEVICE" >/dev/null 2>&1; then mkfs.ext4 -F "$DEVICE"; fi
   mkdir -p /data/mysql
   UUID=$(blkid -s UUID -o value "$DEVICE")
@@ -23,12 +36,14 @@ if [ -n "$DEVICE" ]; then
   mount -a
   chown 999:999 /data/mysql
   chmod 700 /data/mysql
+  echo "EBS device $DEVICE mounted to /data/mysql"
 fi
 
 # Start stack (assumes compose.yml already on instance)
-cd /home/ubuntu/emb0x 2>/dev/null || true
-docker compose up -d || true
+docker compose -f compose-production.yml up -d
+# docker compose up -d || true
 
+echo "instance-init.sh completed."
 
 # #!/bin/bash
 # # This script is used to initialise the "deployment" container
