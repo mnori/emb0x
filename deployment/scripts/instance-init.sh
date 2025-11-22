@@ -1,4 +1,7 @@
 #!/bin/bash
+# This file is used to install and configure the necessary compoents on 
+# EC2 instance the first time it boots.
+
 set -e
 
 echo "Starting instance-init.sh..."
@@ -42,21 +45,21 @@ for i in $(seq 1 30); do
 done
 echo "Found device: $DEVICE"
 
+if [ -n "$DEVICE" ]; then
+  echo "Found attached EBS device: $DEVICE"
+  if ! blkid "$DEVICE" >/dev/null 2>&1; then mkfs.ext4 -F "$DEVICE"; fi
+  mkdir -p /data/mysql
+  UUID=$(blkid -s UUID -o value "$DEVICE")
+  grep -q "$UUID" /etc/fstab || echo "UUID=$UUID /data/mysql ext4 defaults,nofail 0 2" >> /etc/fstab
+  mount -a
+  chown 999:ubuntu /data/mysql
+  chmod 770 /data/mysql
+  sudo chown ubuntu:ubuntu /data/mysql
+  sudo chmod 750 /data/mysql
+  echo "EBS device $DEVICE mounted to /data/mysql"
+fi
 
-
-# if [ -n "$DEVICE" ]; then
-#   echo "Found attached EBS device: $DEVICE"
-#   if ! blkid "$DEVICE" >/dev/null 2>&1; then mkfs.ext4 -F "$DEVICE"; fi
-#   mkdir -p /data/mysql
-#   UUID=$(blkid -s UUID -o value "$DEVICE")
-#   grep -q "$UUID" /etc/fstab || echo "UUID=$UUID /data/mysql ext4 defaults,nofail 0 2" >> /etc/fstab
-#   mount -a
-#   chown 999:999 /data/mysql
-#   chmod 700 /data/mysql
-#   echo "EBS device $DEVICE mounted to /data/mysql"
-# fi
-
-# echo "...MySQL EBS volume setup complete."
+echo "...MySQL EBS volume setup complete."
 
 # echo "Starting Docker Compose stack..."
 
