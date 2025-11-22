@@ -31,15 +31,18 @@ echo "...Docker and Docker Compose installed."
 echo "MySQL EBS volume setup..."
 
 # # Wait for attached EBS device (if present)
-# DEVICE=""
-# for i in $(seq 1 30); do
-#   echo "Checking for attached EBS device (attempt $i)..."
-#   for cand in /dev/xvdf /dev/sdf /dev/nvme1n1; do
-#     if [ -b "$cand" ]; then DEVICE="$cand"; break; fi
-#   done
-#   [ -n "$DEVICE" ] && break
-#   sleep 2
-# done
+DEVICE=""
+for i in $(seq 1 30); do
+  echo "Checking for attached EBS device (attempt $i)..."
+  for cand in /dev/xvdf /dev/sdf /dev/nvme1n1; do
+    if [ -b "$cand" ]; then DEVICE="$cand"; break; fi
+  done
+  [ -n "$DEVICE" ] && break
+  sleep 2
+done
+echo "Found device: $DEVICE"
+
+
 
 # if [ -n "$DEVICE" ]; then
 #   echo "Found attached EBS device: $DEVICE"
