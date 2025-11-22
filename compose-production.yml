@@ -1,26 +1,4 @@
 services:
-  webapp:
-    image: webapp
-    container_name: webapp
-    build: 
-      context: .
-      dockerfile: webapp/Dockerfile
-    depends_on:
-      database:
-        condition: service_healthy
-    restart: always
-    environment:
-      ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
-      MYSQL_HOST: database
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: emb0x
-    ports:
-      - "5000:5000"
-    volumes:
-      - shared-upload-data:/app/shared-upload-data
-  
-services:
   database: 
     image: mysql
     container_name: database
@@ -37,59 +15,81 @@ services:
       interval: 1s
       timeout: 3s
       retries: 20
+  
+  # webapp:
+  #   image: webapp
+  #   container_name: webapp
+  #   build: 
+  #     context: .
+  #     dockerfile: webapp/Dockerfile
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   restart: always
+  #   environment:
+  #     ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+  #     MYSQL_HOST: database
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: emb0x
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - shared-upload-data:/app/shared-upload-data
+  
 
-  import-manager:
-    image: import-manager
-    container_name: import-manager
-    build:
-      context: .
-      dockerfile: import-manager/Dockerfile
-    depends_on:
-      database:
-        condition: service_healthy
-    restart: always
-    environment:
-      ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
-    volumes:
-      - ./import-manager:/app/import-manager
-      - shared-upload-data:/app/shared-upload-data
+  # import-manager:
+  #   image: import-manager
+  #   container_name: import-manager
+  #   build:
+  #     context: .
+  #     dockerfile: import-manager/Dockerfile
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   restart: always
+  #   environment:
+  #     ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+  #   volumes:
+  #     - ./import-manager:/app/import-manager
+  #     - shared-upload-data:/app/shared-upload-data
 
-  # this is a drop in replacement for S3. 
-  # Means you can test S3 stuff locally without touching AWS and paying Bezos cos he's a cunt.
-  # Why even bother building a rocket that can't reach orbit innit
-  minio: 
-    image: minio
-    container_name: minio
-    build: 
-      context: .
-      dockerfile: minio/Dockerfile
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    environment:
-      MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - minio-data:/data
+  # # this is a drop in replacement for S3. 
+  # # Means you can test S3 stuff locally without touching AWS and paying Bezos cos he's a cunt.
+  # # Why even bother building a rocket that can't reach orbit innit
+  # minio: 
+  #   image: minio
+  #   container_name: minio
+  #   build: 
+  #     context: .
+  #     dockerfile: minio/Dockerfile
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   environment:
+  #     MINIO_ROOT_USER: admin
+  #     MINIO_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   volumes:
+  #     - minio-data:/data
 
-  # Ubuntu container for running bash scripts that fire off AWS commands to deploy the stack into production
-  deployment:
-    image: deployment
-    container_name: deployment
-    build:
-      context: .
-      dockerfile: deployment/Dockerfile
-    profiles:
-      - deployment-only
-    entrypoint: /bin/bash
-    volumes:
-      - ./deployment:/app/deployment
-    working_dir: /app/deployment
-    environment:
-      # Set these 3 variables in a file called .env stored in the same folder as this compose.yml
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} 
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+  # # Ubuntu container for running bash scripts that fire off AWS commands to deploy the stack into production
+  # deployment:
+  #   image: deployment
+  #   container_name: deployment
+  #   build:
+  #     context: .
+  #     dockerfile: deployment/Dockerfile
+  #   profiles:
+  #     - deployment-only
+  #   entrypoint: /bin/bash
+  #   volumes:
+  #     - ./deployment:/app/deployment
+  #   working_dir: /app/deployment
+  #   environment:
+  #     # Set these 3 variables in a file called .env stored in the same folder as this compose.yml
+  #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} 
+  #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  #     AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
 
 volumes:
   shared-upload-data:

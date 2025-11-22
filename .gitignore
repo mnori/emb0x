@@ -8,4 +8,5 @@ webapp/obj/Debug/
 deployment/scripts/data/*id.txt
 deployment/scripts/data/public-ip.txt
 deployment/scripts/data/ebs-db-volume-summary.txt
+deployment/scripts/data/emb0x-key.pem
 deployment/scripts/secrets.env

@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/usr/bin:${PATH}"
 
 # Update the package list and install dependencies
-RUN apt-get update && apt-get install -y coreutils curl unzip less jq
+RUN apt-get update && apt-get install -y coreutils curl unzip less jq openssh-client
 
 # Verify the tail command as root
 RUN /usr/bin/tail --version
@@ -31,6 +31,10 @@ USER deployer
 
 # Verify the tail command as deployer
 RUN /usr/bin/tail --version
+
+RUN mkdir -p /home/deployer/.ssh
+RUN chown deployer:deployer /home/deployer/.ssh
+RUN chmod 700 /home/deployer/.ssh
 
 # Set the working directory
 WORKDIR /app/deployer
