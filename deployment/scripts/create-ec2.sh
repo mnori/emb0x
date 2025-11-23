@@ -7,7 +7,7 @@ export AWS_PAGER=""
 
 # Config (adjust if needed)
 IMAGE_ID="ami-022814934cf926361" # Ubuntu LTS AMI
-INSTANCE_TYPE="t3.micro"
+INSTANCE_TYPE="t3.small"
 KEY_NAME="emb0x-key"
 INSTANCE_NAME="emb0x-instance"
 

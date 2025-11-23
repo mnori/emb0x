@@ -15,8 +15,9 @@ RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app/webapp
 
-# Set the connection string as an environment variable
-ENV ConnectionStrings__Emb0xDatabaseContext=$DB_CONNECTION_STRING
+# # Set the connection string as an environment variable
+# ENV ConnectionStrings__Emb0xDatabaseContext=$DB_CONNECTION_STRING
+# ENV MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "webapp.dll"]

@@ -9,7 +9,7 @@ echo "Starting instance-init.sh..."
 set -x 
 
 apt-get update
-apt-get install -y software-properties-common 
+apt-get install -y software-properties-common btop
 add-apt-repository -y universe
 apt-get update
 
@@ -63,7 +63,7 @@ fi
 echo "...MySQL EBS volume setup complete."
 
 # Needed for MySQL to start
-echo "MYSQL_ROOT_PASSWORD=confidentcats4eva\n" >> /home/ubuntu/emb0x/.env
+echo "MYSQL_ROOT_PASSWORD=confidentcats4eva" >> /home/ubuntu/emb0x/.env
 
 # Start stack (assumes compose.yml already on instance)
 cd /home/ubuntu/emb0x
