@@ -9,9 +9,20 @@ echo "Starting instance-init.sh..."
 set -x 
 
 apt-get update
-apt-get install -y software-properties-common
+apt-get install -y software-properties-common 
 add-apt-repository -y universe
 apt-get update
+
+# Git clone repo
+echo "Fetching codebase..."
+cd /home/ubuntu
+if [ ! -d emb0x ]; then
+  git clone https://github.com/mnori/emb0x.git emb0x || echo "Clone failed"
+else
+  cd emb0x && git pull || echo "Pull failed"
+fi
+chown -R ubuntu:ubuntu /home/ubuntu/emb0x
+echo "Codebase ready at /home/ubuntu/emb0x"
 
 # Install Docker
 echo "Installing Docker and Docker Compose..."
@@ -49,13 +60,14 @@ if [ -n "$DEVICE" ]; then
   sudo chmod 750 /data/mysql
   echo "EBS device $DEVICE mounted to /data/mysql"
 fi
-
 echo "...MySQL EBS volume setup complete."
 
-# echo "Starting Docker Compose stack..."
+echo "MYSQL_ROOT_PASSWORD=confidentcats4eva\n" >> /home/ubuntu/emb0x/.env
 
+# echo "Starting Docker Compose stack..."
 # # Start stack (assumes compose.yml already on instance)
-# docker compose -f compose-production.yml up -d
+cd /home/ubuntu/emb0x
+docker compose -f compose-production.yml up -d
 # # docker compose up -d || true
 
 # echo "...Docker Compose stack started."
