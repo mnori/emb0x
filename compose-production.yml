@@ -29,12 +29,13 @@ services:
     restart: always
     environment:
       ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+      ASPNETCORE_URLS: http://0.0.0.0:5000
       MYSQL_HOST: database
       MYSQL_USER: root
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: emb0x
     ports:
-      - "5000:5000"
+      - "80:5000"
     volumes:
       - shared-upload-data:/app/shared-upload-data
 
