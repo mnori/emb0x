@@ -143,6 +143,11 @@ PUBLIC_IP=$(aws ec2 describe-addresses --allocation-ids "$EIP_ALLOC_ID" \
 echo "$PUBLIC_IP" > data/public-ip.txt
 echo "Elastic IP (retained): $PUBLIC_IP"
 
+# Best to wait for initialisation to complete at this point.
 ./wait-for-ec2-setup.sh
 
-
+# Expose the web server port in the security group so we can access the webapp publicly
+aws ec2 authorize-security-group-ingress \
+  --group-id "$(cat data/security-group-id.txt)" \
+  --protocol tcp --port 80 --cidr 0.0.0.0/0 \
+  --region "$AWS_REGION" 2>/dev/null || echo "Rule exists"

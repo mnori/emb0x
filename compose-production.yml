@@ -25,7 +25,7 @@ services:
       dockerfile: webapp/Dockerfile
     depends_on:
       database:
-        condition: service_healthy
+        condition: service_healthy # You can expect db connection errors for a bit while mysql initialises
     restart: always
     environment:
       ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"

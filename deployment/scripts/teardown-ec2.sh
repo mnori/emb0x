@@ -33,7 +33,7 @@ if [ -n "$EXISTING_IDS" ]; then
       --output text --region "$AWS_REGION" 2>/dev/null || echo "missing")
     if [[ "$STATE" == "running" || "$STATE" == "stopped" || "$STATE" == "pending" || "$STATE" == "stopping" ]]; then
       VALID_IDS+=("$ID")
-      echo "Keep $ID (state=$STATE)"
+      echo "Discovered $ID (state=$STATE)"
     else
       echo "Skip $ID (state=$STATE)"
     fi
