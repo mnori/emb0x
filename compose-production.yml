@@ -1,4 +1,5 @@
 services:
+
   database: 
     image: mysql
     container_name: database
@@ -16,27 +17,26 @@ services:
       timeout: 3s
       retries: 20
   
-  # webapp:
-  #   image: webapp
-  #   container_name: webapp
-  #   build: 
-  #     context: .
-  #     dockerfile: webapp/Dockerfile
-  #   depends_on:
-  #     database:
-  #       condition: service_healthy
-  #   restart: always
-  #   environment:
-  #     ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
-  #     MYSQL_HOST: database
-  #     MYSQL_USER: root
-  #     MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     MYSQL_DATABASE: emb0x
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - shared-upload-data:/app/shared-upload-data
-  
+  webapp:
+    image: webapp
+    container_name: webapp
+    build: 
+      context: .
+      dockerfile: webapp/Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: always
+    environment:
+      ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+      MYSQL_HOST: database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: emb0x
+    ports:
+      - "5000:5000"
+    volumes:
+      - shared-upload-data:/app/shared-upload-data
 
   # import-manager:
   #   image: import-manager

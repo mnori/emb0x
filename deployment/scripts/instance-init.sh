@@ -62,13 +62,12 @@ if [ -n "$DEVICE" ]; then
 fi
 echo "...MySQL EBS volume setup complete."
 
+# Needed for MySQL to start
 echo "MYSQL_ROOT_PASSWORD=confidentcats4eva\n" >> /home/ubuntu/emb0x/.env
 
-# echo "Starting Docker Compose stack..."
-# # Start stack (assumes compose.yml already on instance)
+# Start stack (assumes compose.yml already on instance)
 cd /home/ubuntu/emb0x
 docker compose -f compose-production.yml up -d
-# # docker compose up -d || true
+echo "...Docker Compose stack started."
 
-# echo "...Docker Compose stack started."
 echo "Reached end of instance-init.sh deployment script."
