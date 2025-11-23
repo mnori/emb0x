@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Delete all VPCs tagged emb0x-vpc
-# Replace existing VPC teardown with this:
 VPC_IDS=$(aws ec2 describe-vpcs \
   --filters "Name=tag:Name,Values=emb0x-vpc" \
   --query "Vpcs[].VpcId" \

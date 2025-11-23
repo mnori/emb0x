@@ -17,7 +17,7 @@ WORKDIR /app/webapp
 
 # # Set the connection string as an environment variable
 # ENV ConnectionStrings__Emb0xDatabaseContext=$DB_CONNECTION_STRING
-# ENV MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+ENV MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "webapp.dll"]

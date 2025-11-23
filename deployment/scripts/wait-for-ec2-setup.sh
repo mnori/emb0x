@@ -12,7 +12,7 @@ START=$(date +%s)
 MAX_WAIT=900
 SLEEP=5
 
-echo "Waiting for EC2 initialising script..."
+echo "Waiting for EC2 initialising script (instance-init.sh) to finish..."
 while true; do
   ELAPSED=$(( $(date +%s) - START ))
   if [ $ELAPSED -ge $MAX_WAIT ]; then
@@ -45,7 +45,7 @@ while true; do
   sleep "$SLEEP"
 done
 
-echo "...Finished waiting for EC2 container intialiser script."
+echo "...Finished waiting for EC2 container intialisation script."
 
 # Doing this means we can look at the logs easily in the IDE after the thing boots.
 scp -i "$KEY_FILE" ubuntu@"$PUBLIC_IP":/var/log/cloud-init-output.log data/cloud-init-output.log || true
