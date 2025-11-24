@@ -1,23 +1,22 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy only project files first
-COPY webapp/webapp.csproj webapp/
+# Copy project files first
 COPY SharedLibrary/SharedLibrary.csproj SharedLibrary/
+COPY webapp/webapp.csproj webapp/
 
-# Initial restore (cached)
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore webapp/webapp.csproj --verbosity minimal
 
-# Copy the rest of source
+# Copy source
 COPY SharedLibrary/ SharedLibrary/
 COPY webapp/ webapp/
 
-# Safety re-restore in case dependencies changed
-RUN dotnet restore webapp/webapp.csproj --verbosity minimal
+# Build (produces bin/Release)
+RUN dotnet build webapp/webapp.csproj -c Release --no-restore
 
-RUN dotnet build webapp/webapp.csproj -c Release -o /app/build --no-restore
-RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-build
+# Publish (use built output)
+RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app/webapp
@@ -25,6 +24,69 @@ ENV ASPNETCORE_URLS=http://0.0.0.0:5000
 EXPOSE 5000
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet","webapp.dll"]
+
+##################################
+
+# FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# WORKDIR /app
+
+# # Copy csproj files for restore caching
+# COPY SharedLibrary/SharedLibrary.csproj SharedLibrary/
+# COPY webapp/webapp.csproj webapp/
+
+# # Restore dependencies
+# RUN --mount=type=cache,target=/root/.nuget/packages \
+#     dotnet restore webapp/webapp.csproj --verbosity minimal
+
+# # Copy source
+# COPY SharedLibrary/ SharedLibrary/
+# COPY webapp/ webapp/
+
+# # (Optional safety restore if project refs changed)
+# RUN dotnet restore webapp/webapp.csproj --verbosity minimal
+
+# # Build (produces bin/Release/net8.0 outputs)
+# RUN dotnet build webapp/webapp.csproj -c Release --no-restore
+
+# # Publish (uses build output; no rebuild)
+# RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-restore
+
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# WORKDIR /app/webapp
+# ENV ASPNETCORE_URLS=http://0.0.0.0:5000
+# EXPOSE 5000
+# COPY --from=build /app/publish .
+# ENTRYPOINT ["dotnet","webapp.dll"]
+
+########################################################
+
+# FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# WORKDIR /app
+
+# # Copy only project files first
+# COPY webapp/webapp.csproj webapp/
+# COPY SharedLibrary/SharedLibrary.csproj SharedLibrary/
+
+# # Initial restore (cached)
+# RUN --mount=type=cache,target=/root/.nuget/packages \
+#     dotnet restore webapp/webapp.csproj --verbosity minimal
+
+# # Copy the rest of source
+# COPY SharedLibrary/ SharedLibrary/
+# COPY webapp/ webapp/
+
+# # Safety re-restore in case dependencies changed
+# RUN dotnet restore webapp/webapp.csproj --verbosity minimal
+
+# RUN dotnet build webapp/webapp.csproj -c Release -o /app/build --no-restore
+# RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-build
+
+# FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# WORKDIR /app/webapp
+# ENV ASPNETCORE_URLS=http://0.0.0.0:5000
+# EXPOSE 5000
+# COPY --from=build /app/publish .
+# ENTRYPOINT ["dotnet","webapp.dll"]
 
 #######################################################
 
