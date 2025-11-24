@@ -5,18 +5,20 @@ WORKDIR /app
 COPY SharedLibrary/SharedLibrary.csproj SharedLibrary/
 COPY webapp/webapp.csproj webapp/
 
+# Initial restore (cached)
 RUN --mount=type=cache,target=/root/.nuget/packages \
     dotnet restore webapp/webapp.csproj --verbosity minimal
 
-# Copy source
+# Copy remaining source
 COPY SharedLibrary/ SharedLibrary/
 COPY webapp/ webapp/
 
-# Build (produces bin/Release)
-RUN dotnet build webapp/webapp.csproj -c Release --no-restore
+# Safety re-restore (captures new refs like analyzers)
+RUN dotnet restore webapp/webapp.csproj --verbosity minimal
 
-# Publish (use built output)
-RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-restore
+# Build + publish
+RUN dotnet build webapp/webapp.csproj -c Release --no-restore
+RUN dotnet publish webapp/webapp.csproj -c Release -o /app/publish --no-build
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app/webapp
