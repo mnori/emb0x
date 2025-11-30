@@ -32,12 +32,29 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --subnet-id "$SUBNET_ID" \
   --security-group-ids "$SECURITY_GROUP_ID" \
   --user-data "file://$USER_DATA_FILE" \
+  --block-device-mappings '[
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": { "VolumeSize": 20, "VolumeType": "gp3", "DeleteOnTermination": true }
+    }
+  ]' \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]" \
   --query "Instances[0].InstanceId" \
   --output text)
 
 echo "$INSTANCE_ID" > data/instance-id.txt
 echo "Instance created: $INSTANCE_ID (waiting for running state...)"
+
+# # Try to increase root volume size
+# VOL_ID=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
+#   --query 'Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId' --output text --region "$AWS_REGION")
+# # Grow to 20 GiB (example)
+# aws ec2 modify-volume --volume-id "$VOL_ID" --size 20 --region "$AWS_REGION"
+# # On the instance (after modification completes)
+# apt-get update && sudo apt-get install -y cloud-guest-utils
+# growpart /dev/xvda 1
+# resize2fs /dev/xvda1
+# df -h
 
 # ...existing code...
 aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "$AWS_REGION"
