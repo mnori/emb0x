@@ -58,20 +58,20 @@ services:
   # this is a drop in replacement for S3. 
   # Means you can test S3 stuff locally without touching AWS and paying Bezos cos he's a cunt.
   # Why even bother building a rocket that can't reach orbit innit
-  minio: 
-    image: minio
-    container_name: minio
-    build: 
-      context: .
-      dockerfile: minio/Dockerfile
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    environment:
-      MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - minio-data:/data
+  # minio: 
+  #   image: minio
+  #   container_name: minio
+  #   build: 
+  #     context: .
+  #     dockerfile: minio/Dockerfile
+  #   ports:
+  #     - "9000:9000"
+  #     - "9001:9001"
+  #   environment:
+  #     MINIO_ROOT_USER: admin
+  #     MINIO_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   volumes:
+  #     - minio-data:/data
 
   # # Ubuntu container for running bash scripts that fire off AWS commands to deploy the stack into production
   # deployment:
