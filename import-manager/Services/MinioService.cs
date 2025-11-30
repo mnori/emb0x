@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ImportManager
+namespace ImportManager.Services
 {
-    public class MinioService
+    public class MinioService : StorageService
     {
         private readonly IMinioClient _minioClient;
 
@@ -20,7 +20,7 @@ namespace ImportManager
                 .Build();
         }
 
-       public async Task UploadFileAsync(string bucketName, string objectName, string filePath)
+       public override async Task UploadFileAsync(string bucketName, string objectName, string filePath)
         {
             try
             {

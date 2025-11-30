@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SharedLibrary.Data;
+using Minio;
+using Microsoft.Extensions.Hosting;
+// using Services.StorageService;
+using ImportManager.Services;
 
 namespace ImportManager
 {
@@ -7,7 +11,21 @@ namespace ImportManager
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            // CreateHostBuilder(args).Build().Run();
+            // // SetupStorageService();
+
+            // builder.Services.AddSingleton<IMinioClient>(_ =>
+            //     new MinioClient()
+            //         .WithEndpoint(Environment.GetEnvironmentVariable("MINIO_ENDPOINT") ?? "minio:9000")
+            //         .WithCredentials(Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY") ?? "minioadmin",
+            //                         Environment.GetEnvironmentVariable("MINIO_SECRET_KEY") ?? "minioadmin")
+            //         .Build());
+            // builder.Services.AddSingleton<StorageService, MinioService>();
+            // builder.Services.AddSingleton<ImportTaskService>();
+
+            builder.Services.AddSingleton<IMinioClient>(_ =>
+                new MinioClient().WithEndpoint("minio:9000").WithCredentials("minioadmin","minioadmin").Build());
+            builder.Services.AddSingleton<StorageService, MinioService>();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -33,5 +51,27 @@ namespace ImportManager
                     // Add your background service or other dependencies here
                     services.AddHostedService<ImportTaskDaemon>();
                 });
+
+        // public void SetupStorageService()
+        // {
+        //     var provider = Environment.GetEnvironmentVariable("STORAGE_PROVIDER") ?? "Minio";
+
+        //     if (provider.Equals("S3", StringComparison.OrdinalIgnoreCase))
+        //     {
+        //         builder.Services.AddAWSService<IAmazonS3>();
+        //         builder.Services.AddSingleton<StorageService, S3StorageService>();
+        //     }
+        //     else
+        //     {
+        //         var endpoint = Environment.GetEnvironmentVariable("MINIO_ENDPOINT") ?? "minio:9000";
+        //         var access = Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY") ?? "admin";
+        //         var secret = Environment.GetEnvironmentVariable("MINIO_SECRET_KEY") ?? "confidentcats4eva";
+
+        //         builder.Services.AddSingleton<IMinioClient>(_ =>
+        //             new MinioClient().WithEndpoint(endpoint).WithCredentials(access, secret).Build());
+        //         builder.Services.AddSingleton<StorageService, MinioStorageService>();
+        //     }
+        // }
+
     }
 }

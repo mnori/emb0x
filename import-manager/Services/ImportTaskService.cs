@@ -12,13 +12,21 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using SharpCompress.Archives;
 using SharpCompress.Common;
+using ImportManager.Services;
+using Minio;
 
-namespace ImportManager
+namespace ImportManager.Services
 {
     public class ImportTaskService {
 
         private readonly HashSet<string> _processedChecksums = new HashSet<string>();
 
+        private readonly StorageService _storage;
+        public ImportTaskService(StorageService storage)
+        {
+            _storage = storage;
+        }
+        
         public async void ProcessImportTask(
             IServiceProvider serviceProvider, 
             ILogger<ImportTaskDaemon> logger, 
@@ -259,8 +267,10 @@ namespace ImportManager
             // Console.WriteLine($"-- New track saved to database with ID: {newTrack.Id} --");
 
             // surely this should be autowired or whatever the c# equivalent is
-            var minioService = new MinioService();
-            minioService.UploadFileAsync(bucketName, keyName, flacFilepath).Wait();
+            // var minioService = new MinioService();
+            // minioService.UploadFileAsync(bucketName, keyName, flacFilepath).Wait();
+
+            await _storage.UploadFileAsync(bucketName, keyName, flacFilepath);
         }
 
         public static bool IsAudioFile(string filePath)
