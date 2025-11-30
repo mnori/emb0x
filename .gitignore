@@ -8,5 +8,5 @@ webapp/obj/Debug/
 deployment/scripts/data/*
 !deployment/scripts/data/.gitkeep
 deployment/scripts/secrets.env
-import-manager/bin/*
-import-manager/obj/*
+import-manager/bin/
+import-manager/obj/

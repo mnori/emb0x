@@ -1,7 +1,0 @@
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.csproj.AssemblyReference.cache
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.AssemblyInfoInputs.cache
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.AssemblyInfo.cs
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.csproj.CoreCompileInputs.cache
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\matth\dev\emb0x\import-manager\obj\Debug\net8.0\ImportManager.sourcelink.json
