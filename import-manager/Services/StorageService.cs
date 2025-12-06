@@ -7,6 +7,6 @@ namespace ImportManager.Services
 
     public abstract class StorageService
     {
-        public abstract Task UploadFileAsync(string bucketName, string objectName, string filePath, CancellationToken ct = default);
+        public abstract Task UploadFileAsync(string bucketName, string objectName, string filePath);
     }
 }

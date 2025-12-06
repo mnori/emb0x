@@ -270,7 +270,7 @@ namespace ImportManager.Services
             // var minioService = new MinioService();
             // minioService.UploadFileAsync(bucketName, keyName, flacFilepath).Wait();
 
-            await _storage.UploadFileAsync(bucketName, keyName, flacFilepath);
+            _storage.UploadFileAsync(bucketName, keyName, flacFilepath);
         }
 
         public static bool IsAudioFile(string filePath)

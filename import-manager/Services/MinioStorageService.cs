@@ -8,32 +8,41 @@ namespace ImportManager.Services
 {
     public class MinioStorageService : StorageService
     {
-        private readonly IMinioClient _client;
+        private readonly IMinioClient _minioClient;
 
-        public MinioStorageService(IMinioClient client)
+        public MinioStorageService()
         {
-            _client = client;
+            // Configure MinIO client
+            _minioClient = new MinioClient()
+                .WithEndpoint("minio", 9000) // Use the service name "minio" as the endpoint
+                .WithCredentials("admin", "confidentcats4eva")
+                .Build();
         }
 
-        public override async Task UploadFileAsync(string bucketName, string objectName, string filePath, CancellationToken ct = default)
+       public override async Task UploadFileAsync(string bucketName, string objectName, string filePath)
         {
             try
             {
-                var exists = await _client.BucketExistsAsync(new BucketExistsArgs().WithBucket(bucketName), ct);
-                if (!exists)
+                // Ensure the bucket exists
+                bool found = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(bucketName));
+                if (!found)
                 {
-                    await _client.MakeBucketAsync(new MakeBucketArgs().WithBucket(bucketName), ct);
+                    await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(bucketName));
                 }
 
-                await _client.PutObjectAsync(new PutObjectArgs()
+                // Upload the file
+                // await _minioClient.PutObjectAsync(bucketName, objectName, filePath);
+
+                await _minioClient.PutObjectAsync(new PutObjectArgs()
                     .WithBucket(bucketName)
                     .WithObject(objectName)
-                    .WithFileName(filePath), ct);
+                    .WithFileName(filePath));
+
+                Console.WriteLine($"File '{filePath}' uploaded to bucket '{bucketName}' as '{objectName}'.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"MinIO upload error: {ex.Message}");
-                throw;
+                Console.WriteLine($"Error uploading file to MinIO: {ex.Message}");
             }
         }
     }

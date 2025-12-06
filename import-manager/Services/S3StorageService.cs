@@ -14,8 +14,10 @@ namespace ImportManager.Services
             _s3 = s3;
         }
 
-        public override async Task UploadFileAsync(string bucketName, string objectName, string filePath, CancellationToken ct = default)
+        public override async Task UploadFileAsync(string bucketName, string objectName, string filePath)
         {
+            var ct = CancellationToken.None;
+            
             // Ensure bucket exists (safe for most regions; adjust for restricted regions if needed)
             var exists = await _s3.DoesS3BucketExistAsync(bucketName);
             if (!exists)
