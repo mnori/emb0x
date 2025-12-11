@@ -3,6 +3,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
+# Change this to bind volume soon!
 COPY SharedLibrary ./SharedLibrary
 COPY import-manager ./import-manager
 

@@ -14,41 +14,34 @@ namespace ImportManager
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-            // // SetupStorageService();
-
-            // builder.Services.AddSingleton<IMinioClient>(_ =>
-            //     new MinioClient()
-            //         .WithEndpoint(Environment.GetEnvironmentVariable("MINIO_ENDPOINT") ?? "minio:9000")
-            //         .WithCredentials(Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY") ?? "minioadmin",
-            //                         Environment.GetEnvironmentVariable("MINIO_SECRET_KEY") ?? "minioadmin")
-            //         .Build());
-            // builder.Services.AddSingleton<StorageService, MinioService>();
-            // builder.Services.AddSingleton<ImportTaskService>();
-
-            // builder.Services.AddSingleton<IMinioClient>(_ =>
-            //     new MinioClient().WithEndpoint("minio:9000").WithCredentials("minioadmin","minioadmin").Build());
-            // builder.Services.AddSingleton<StorageService, MinioStorageService>();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConsole();
-                    logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
-                })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    // Storage provider selection
-                    var provider = Environment.GetEnvironmentVariable("STORAGE_PROVIDER") ?? "Minio";
-                    if (provider.Equals("S3", StringComparison.OrdinalIgnoreCase))
+                    // Create a console logger for startup messages
+                    using var startupLoggerFactory = LoggerFactory.Create(logging =>
                     {
-                        services.AddAWSService<Amazon.S3.IAmazonS3>();
+                        logging.ClearProviders();
+                        logging.AddConsole();
+                        logging.SetMinimumLevel(LogLevel.Information);
+                        logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
+                    });
+                    var startupLogger = startupLoggerFactory.CreateLogger("Startup");
+                    
+                    // Storage provider selection
+                    var provider = Environment.GetEnvironmentVariable("STORAGE_PROVIDER") ?? "minio";
+                    if (provider.Equals("s3", StringComparison.OrdinalIgnoreCase))
+                    {
+                        startupLogger.LogInformation("Using S3 storage provider.");
+                        services.AddDefaultAWSOptions(hostContext.Configuration.GetAWSOptions());
+                        services.AddAWSService<IAmazonS3>();
                         services.AddSingleton<StorageService, S3StorageService>();
                     }
                     else
                     {
+                        startupLogger.LogInformation("Using Minio storage provider.");
                         var endpoint = Environment.GetEnvironmentVariable("MINIO_ENDPOINT") ?? "minio:9000";
                         var access = Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY") ?? "minioadmin";
                         var secret = Environment.GetEnvironmentVariable("MINIO_SECRET_KEY") ?? "minioadmin";
@@ -69,9 +62,6 @@ namespace ImportManager
 
                     services.AddScoped<ImportTaskService>();
                     services.AddHostedService<ImportTaskDaemon>();
-
-                    services.AddDefaultAWSOptions(hostContext.Configuration.GetAWSOptions());
-                    services.AddAWSService<Amazon.S3.IAmazonS3>();
                 });
 
 
