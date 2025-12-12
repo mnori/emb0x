@@ -49,6 +49,10 @@ services:
     restart: always
     environment:
       ConnectionStrings__Emb0xDatabaseContext: "Server=database;Database=emb0x;Port=3306;User=root;Password=confidentcats4eva;allowPublicKeyRetrieval=true;SslMode=None;"
+      STORAGE_PROVIDER: ${STORAGE_PROVIDER}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ./import-manager:/app/import-manager
       - shared-upload-data:/app/shared-upload-data
