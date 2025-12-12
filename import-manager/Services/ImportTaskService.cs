@@ -46,7 +46,7 @@ namespace ImportManager.Services
 
                         if (importTask != null)
                         {
-                            // logger.LogInformation("Processing ImportTask: {Id}, Description: {Description}", importTask.Id, importTask.Description);
+                            logger.LogInformation("Processing ImportTask: {Id}, Description: {Description}", importTask.Id, importTask.Description);
 
                             // Perform actions based on the ImportTask row
                             // Example: Mark the task as started
@@ -63,17 +63,17 @@ namespace ImportManager.Services
                             dbContext.ImportTask.Update(importTask);
                             await dbContext.SaveChangesAsync(stoppingToken);
 
-                            // logger.LogInformation("Completed ImportTask: {Id}", importTask.Id);
+                            logger.LogInformation("Completed ImportTask: {Id}", importTask.Id);
                         }
                         else
                         {
-                            // logger.LogInformation("No tasks found.");
+                            logger.LogInformation("No tasks found.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    // logger.LogError(ex, "An error occurred while processing tasks.");
+                    logger.LogError(ex, "An error occurred while processing tasks.");
                 }
 
         }
@@ -81,7 +81,7 @@ namespace ImportManager.Services
         public void ProcessUpload(ImportTask importTask, Emb0xDatabaseContext dbContext) {
             // Process the upload here
             // This is just a placeholder implementation
-            // Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
+            Console.WriteLine($"-- Processing upload for task {importTask.Id} in {Settings.UploadPath} --");
 
             var filePath = Path.Combine(Settings.UploadPath, importTask.Id + ".upload");
             ProcessFile(filePath, dbContext);
@@ -111,7 +111,7 @@ namespace ImportManager.Services
             // Convert the audio files within to flac. By using ffmpeg for each one.
             // Then recursively process each file in the temp directory with the ProcessFile method.
 
-            // Console.WriteLine($"-- Processing file {originalFilepath} --");
+            Console.WriteLine($"-- Processing file {originalFilepath} --");
 
             // Generate a new unique ID for the file.
             var id = Guid.NewGuid().ToString();
@@ -125,7 +125,7 @@ namespace ImportManager.Services
                 Console.WriteLine($"-- File {originalFilepath} isn't audio --");
                 string tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
-                // Console.WriteLine($"-- Creating temporary directory: {tempDirectory} --");
+                Console.WriteLine($"-- Creating temporary directory: {tempDirectory} --");
 
                 Directory.CreateDirectory(tempDirectory);
 
@@ -134,7 +134,7 @@ namespace ImportManager.Services
                     bool wasCompressedFile = UnpackCompressedFile(originalFilepath, tempDirectory);
                     if (wasCompressedFile)
                     {
-                        // Console.WriteLine($"-- File {originalFilepath} was successfully unpacked --");
+                        Console.WriteLine($"-- File {originalFilepath} was successfully unpacked --");
 
                         foreach (var file in Directory.GetFiles(tempDirectory, "*", SearchOption.AllDirectories))
                         {
@@ -144,7 +144,7 @@ namespace ImportManager.Services
                     }
                     else
                     {
-                        // Console.WriteLine($"-- File {originalFilepath} is NOT a compressed file --");
+                        Console.WriteLine($"-- File {originalFilepath} is NOT a compressed file --");
                     }
                 }
                 finally
@@ -269,7 +269,6 @@ namespace ImportManager.Services
             // surely this should be autowired or whatever the c# equivalent is
             // var minioService = new MinioService();
             // minioService.UploadFileAsync(bucketName, keyName, flacFilepath).Wait();
-
             _storage.UploadFileAsync(bucketName, keyName, flacFilepath);
         }
 
